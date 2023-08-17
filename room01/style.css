@@ -1,0 +1,82 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Noto Sans JP";
+}
+
+div#topImage{
+    background-image: url(/../room01/img/jinja_back.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    text-align: center;
+    line-height: 320px;
+    width: 100vw;
+    height: 320px;
+}
+
+.title{
+    background-color: rgba(255, 255, 178, 0.807);
+    color: #151515;
+    padding: 10px 30px;
+    border-radius: 40px;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 15px;
+    display: inline;
+}
+
+.header_menu {
+    background-color: #151515;
+    text-align: center;
+    padding: 5px;
+}
+
+.header_menu a {
+    color: #fcfcfc;
+    text-decoration: none;
+    margin: 80px;
+    font-size: 20px;
+}
+
+.contents {
+    height: auto;
+    width: 100%;
+    background-color: #d9d9d9;
+    padding: 20px 0;
+}
+
+.content_news,
+.content_gall {
+    width: 75%;
+    margin: 0 auto;
+    background-color: #fcfcfc;
+    font-size: 18px;
+    font-weight: bold;
+    overflow: scroll;
+    padding: 20px;
+}
+
+.content_news {
+    height: 200px;
+}
+
+.content_gall{
+    margin-top: 20px;
+    height: 380px;
+}
+
+.container.container_news{
+    border-bottom: 1px dotted #d9d9d9;
+}
+
+.news {
+}
+
+.news_time,
+.news_content {
+    padding-left: 20px;
+    font-size: 16px;
+    font-weight: 200;
+}

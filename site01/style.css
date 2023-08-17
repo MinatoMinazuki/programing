@@ -1,0 +1,21 @@
+h1 {
+    display: flex;
+    justify-content: center;
+    margin: 5px auto 0 auto;
+}
+
+.p-new {
+    margin-bottom: 5px;
+}
+
+.post .new {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 400px;
+    height: auto;
+    border: 1px solid black;
+    margin: 10px auto 0 auto;
+}
