@@ -15,23 +15,33 @@ $fileName = $file['name'];
 $tmp_path = $file['tmp_name'];
 $file_err = $file['error'];
 $fileSize = $file['size'];
-$upload_dir = '/./site01/imeges/';
-$save_filename = date('YmdHis') . $fileName;
+$upload_dir = '/../site01/images/';
 
-// 拡張子は画像形式か
-$allow_ext = array('jpg', 'jpeg', 'png');
-$file_ext = pathinfo($fileName, PATHINFO_EXTENSION);
-if(!in_array(strtolower($file_ext), $allow_ext)){
-    $message = '画像ファイルを添付してください';
-}
-
-// ファイルがあるかどうか
-if(is_uploaded_file($tmp_path)){
-    if(move_uploaded_file($tmp_path, $upload_dir.$save_filename)){
-        $message = $fileName . 'を' . $upload_dir . 'にアップしました。';
-    } else {
-        $message = 'ファイルのアップに失敗しました';
+if(isset($_POST['upload'])){
+    // 拡張子は画像形式か
+    $allow_ext = array('jpg', 'jpeg', 'png');
+    $file_ext = pathinfo($fileName, PATHINFO_EXETENTION);
+    if(!in_array(strtolower($file_ext), $allow_ext)){
+        $message = '画像ファイルを添付してください';
     }
+
+    $sql = "INSERT INTO images(name) VALUES (:image)";
+    $stmt = $dbh->prepare($sql);
+    $stmt->bindValue(':image', $image, PDO::PARAM_STR);
+
+    if(!empty($fileName)){
+        move_uploaded_file($file_path, $upload_dir);
+        if(exif_imagetype($file)){
+            $message = '画像をアップロードしました';
+            $stmt->execute();
+        } else {
+            $message = '画像ファイルではありません';
+        }
+    } else {
+        $message = 'アップロードに失敗しました';
+    }
+} else {
+    $message = 'error';
 }
 
 ?>
