@@ -1,14 +1,6 @@
 <?php
 
-$dsn = "mysql:host=localhost; dbname=sousaku; charaset=utf8";
-$username = "root";
-$password = "root";
-
-try{
-    $dbh = new PDO($dsn, $username, $password);
-} catch (PDOException $e) {
-    echo $e->getMessage();
-}
+require_once './dbc.php';
 
 $file = $_FILES['image'];
 $fileName = $file['name'];
@@ -17,6 +9,7 @@ $file_err = $file['error'];
 $fileSize = $file['size'];
 $upload_dir = '/./site01/imeges/';
 $save_filename = date('YmdHis') . $fileName;
+$save_path = $upload_dir . $save_filename;
 
 // 拡張子は画像形式か
 $allow_ext = array('jpg', 'jpeg', 'png');
@@ -27,8 +20,16 @@ if(!in_array(strtolower($file_ext), $allow_ext)){
 
 // ファイルがあるかどうか
 if(is_uploaded_file($tmp_path)){
-    if(move_uploaded_file($tmp_path, $upload_dir.$save_filename)){
+    if(move_uploaded_file($tmp_path, $save_path)){
         $message = $fileName . 'を' . $upload_dir . 'にアップしました。';
+        // DBに保存する(ファイル名、ファイルパス)
+        $result = filesave($fileName, $save_path);
+
+        if($result){
+            echo "データベースに保存しました。";
+        } else {
+            echo "データベースへの保存に失敗しました。";
+        }
     } else {
         $message = 'ファイルのアップに失敗しました';
     }

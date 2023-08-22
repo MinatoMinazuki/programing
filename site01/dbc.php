@@ -11,8 +11,8 @@ function dbc(){
     try{
         $pdo = new PDO($dns, $user, $pass,
             [
-                PDO::ATTER_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTER_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);
 
         return $pdo;
@@ -22,7 +22,31 @@ function dbc(){
     }
 }
 
-dbc();
+/**
+ * ファイルデータを保存
+ * @param string $filename ファイル名
+ * @param string $save_path 保存先のパス
+ * @return bool $result
+*/
+function filesave($fileName, $save_path){
+    $result = false;
+
+    $sql = "INSERT INTO file_table (file_name, file_path) VALUE (?, ?, ?)";
+
+    try {
+        $stmt = dbc()->prepare($sql);
+        $stmt->bindVvalue(1, $fileName);
+        $stmt->bindVvalue(2, $save_path);
+        $result = $stmt->execute;
+
+        return $result;
+
+    } catch(\Exception $e) {
+        echo $e->getMessage();
+        return $result;
+    }
+
+}
 
 
 ?>
