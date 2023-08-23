@@ -2,14 +2,20 @@
 
 require_once './dbc.php';
 
+date_default_timezone_set("Asia/Tokyo");
+
 $file = $_FILES['image'];
 $fileName = $file['name'];
 $tmp_path = $file['tmp_name'];
 $file_err = $file['error'];
 $fileSize = $file['size'];
-$upload_dir = '/./site01/imeges/';
+$upload_dir = '/site01/images/';
 $save_filename = date('YmdHis') . $fileName;
 $save_path = $upload_dir . $save_filename;
+
+var_dump($tmp_path);
+var_dump($upload_dir);
+var_dump($save_path);
 
 // 拡張子は画像形式か
 $allow_ext = array('jpg', 'jpeg', 'png');
@@ -20,7 +26,7 @@ if(!in_array(strtolower($file_ext), $allow_ext)){
 
 // ファイルがあるかどうか
 if(is_uploaded_file($tmp_path)){
-    if(move_uploaded_file($tmp_path, $save_path)){
+    if(move_uploaded_file($tmp_path, $upload_dir)){
         $message = $fileName . 'を' . $upload_dir . 'にアップしました。';
         // DBに保存する(ファイル名、ファイルパス)
         $result = filesave($fileName, $save_path);

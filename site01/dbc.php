@@ -31,13 +31,13 @@ function dbc(){
 function filesave($fileName, $save_path){
     $result = false;
 
-    $sql = "INSERT INTO file_table (file_name, file_path) VALUE (?, ?, ?)";
+    $sql = "INSERT INTO file_table (file_name, file_path) VALUES (?, ?)";
 
     try {
         $stmt = dbc()->prepare($sql);
-        $stmt->bindVvalue(1, $fileName);
-        $stmt->bindVvalue(2, $save_path);
-        $result = $stmt->execute;
+        $stmt->bindValue(1, $fileName);
+        $stmt->bindValue(2, $save_path);
+        $result = $stmt->execute();
 
         return $result;
 
@@ -48,5 +48,16 @@ function filesave($fileName, $save_path){
 
 }
 
+/**
+ * ファイルデータを取得
+ * @return array $filedata
+ */
+function getAllFile(){
+    $sql = "SELECT * FROM file_table";
+
+    $fileData = dbc() -> query($sql);
+
+    return $fileData;
+}
 
 ?>
