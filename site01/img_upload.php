@@ -9,13 +9,14 @@ $fileName = $file['name'];
 $tmp_path = $file['tmp_name'];
 $file_err = $file['error'];
 $fileSize = $file['size'];
-$upload_dir = '/site01/images/';
+$upload_dir = __DIR__.'/images/';
 $save_filename = date('YmdHis') . $fileName;
-$save_path = $upload_dir . $save_filename;
+$saveDb_path = 'images/' . $save_filename;
+$saveDirectory_path = $upload_dir.$save_filename;
 
-var_dump($tmp_path);
-var_dump($upload_dir);
-var_dump($save_path);
+// var_dump($tmp_path);
+// var_dump($upload_dir);
+// var_dump($save_path);
 
 // 拡張子は画像形式か
 $allow_ext = array('jpg', 'jpeg', 'png');
@@ -26,10 +27,10 @@ if(!in_array(strtolower($file_ext), $allow_ext)){
 
 // ファイルがあるかどうか
 if(is_uploaded_file($tmp_path)){
-    if(move_uploaded_file($tmp_path, $upload_dir)){
-        $message = $fileName . 'を' . $upload_dir . 'にアップしました。';
+    if(move_uploaded_file($tmp_path, $saveDirectory_path)){
+        $message = $fileName . 'を' . $saveDirectory_path . 'にアップしました。';
         // DBに保存する(ファイル名、ファイルパス)
-        $result = filesave($fileName, $save_path);
+        $result = filesave($fileName, $saveDb_path);
 
         if($result){
             echo "データベースに保存しました。";

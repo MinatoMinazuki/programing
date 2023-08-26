@@ -4,9 +4,6 @@ require_once './dbc.php';
 
 $files = getAllFile();
 
-foreach ($files as $file) {
-    print_r($file);
-}
 
 ?>
 
@@ -22,9 +19,10 @@ foreach ($files as $file) {
     <h1>画像表示</h1>
     <a href="img_upload.php">画像アップロードへ</a>
     <div>
-        <?php foreach ($files as $file):?>
-            <img src="<?php echo "{$file["file_path"]}" ?>" alt="">
+        <?php foreach ($files as $file): ?>
+            <img src="<?php echo "{$file['file_path']}"; ?>" alt="">
         <?php endforeach; ?>
+        <img src="images/20230824055037jinja_back.png" alt="">
     </div>
 </body>
 </html>

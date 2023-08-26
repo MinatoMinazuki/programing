@@ -25,10 +25,10 @@ function dbc(){
 /**
  * ファイルデータを保存
  * @param string $filename ファイル名
- * @param string $save_path 保存先のパス
+ * @param string $saveDb_path 保存先のパス
  * @return bool $result
 */
-function filesave($fileName, $save_path){
+function filesave($fileName, $saveDb_path){
     $result = false;
 
     $sql = "INSERT INTO file_table (file_name, file_path) VALUES (?, ?)";
@@ -36,7 +36,7 @@ function filesave($fileName, $save_path){
     try {
         $stmt = dbc()->prepare($sql);
         $stmt->bindValue(1, $fileName);
-        $stmt->bindValue(2, $save_path);
+        $stmt->bindValue(2, $saveDb_path);
         $result = $stmt->execute();
 
         return $result;
