@@ -1,18 +1,46 @@
 <?php
 
+session_start();
+
+//Basic認証
+$basic_user = "kubo";
+$basic_pass = "kubo";
+
 $errors = [];
 
+// DB情報
 $db_name = "sousaku";
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = "root";
 
-$pdo = new PDO("mysql:dbname={$db_name}; host={$db_host}", "{$db_user}", "{$db_pass}", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET 'utf8'")
-);
+// if(isset($_SERVER['PHP_AUTH_USER']) && ($_SERVER['PHP_AUTH_USER'] === $basic_user && $_SERVER['PHP_AUTH_PW'] === $basic_pass){
 
-$sql_news = "SELECT * FROM `news` ORDER BY `id` DESC;";
+    $pdo = new PDO("mysql:dbname={$db_name}; host={$db_host}", "{$db_user}", "{$db_pass}", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET 'utf8'")
+    );
 
-$stmt = $pdo->query($sql_news);
+    $sql_news = "SELECT * FROM `news` ORDER BY `id` DESC;";
+
+    $stmt = $pdo->query($sql_news);
+
+
+    //ログインされていない場合は強制的にログインページにリダイレクト
+    if(!isset($_SESSION['login'])){
+      header("Location: /room01/login/index.php");
+      exit();
+    }
+
+    //ログインされている場合は表示用メッセージを編集
+    $message = $_SESSION['login']."さんようこそ";
+    $message = htmlspecialchars($message);
+
+// } else {
+//     header("WWW-Authenticate: Basic realm=\"basic\"");
+//     header("HTTP/1.0 401 Unauthorized - basic");
+//     echo "<p>Unauthorized</p>";
+//     exit();
+// }
+
 
 ?>
 
@@ -29,6 +57,7 @@ $stmt = $pdo->query($sql_news);
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;400;500;700&family=Sawarabi+Gothic&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="wrapper">
     <div id="topImage">
         <h2 class="title">深黒兎の制作物倉庫</h2>
     </div>
@@ -55,5 +84,9 @@ $stmt = $pdo->query($sql_news);
             <span class="content_title gall">GALLERY</span>
         </div>
     </div>
+<footer>
+    <a href="/room01/login/logout.php" class="logout">ログアウト</a>
+</footer>
+</div>
 </body>
 </html>
