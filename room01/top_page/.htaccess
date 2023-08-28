@@ -1,0 +1,12 @@
+# Basic認証
+<Files ~ "^\.(htaccess|htpasswd)$">
+deny from all
+</Files>
+Options -Indexes
+AuthUserFile /room01/htaccess/.htpasswd
+AuthGroupFile /dev/null
+AuthName "Please enter your ID and password"
+AuthType Basic
+require valid-user 
+DirectoryIndex room01/top_page/index.php       
+order deny,allow
