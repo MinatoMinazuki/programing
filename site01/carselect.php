@@ -7,7 +7,7 @@ $model = $_POST['model'];
 $year = $_POST['year'];
 
 if(!isset($_POST)){
-
+    
 } else {
     if (!isset($person) || !isset($model) || !isset($year)) {
         $error = "すべての項目を選んでください";
@@ -16,18 +16,16 @@ if(!isset($_POST)){
             $pdo = new PDO('mysql:dbname=sousaku;host=localhost;charset=utf8','root', 'root',
                 [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
                 ]);
         } catch (PDOException $e){
 
         }
 
-        $sql = sprintf('SELECT * FROM slectCarStyle WHERE person = %s AND model = %s AND year = %s',$person,$model,$year);
+        $sql = sprintf('SELECT * FROM selectCarStyle WHERE person = "%s" AND model = "%s" AND year = "%s"',$person,$model,$year);
         $stmt = $pdo->prepare($sql);
-        // $stmt->execute();
-        // $result = $stmt->fetch();
-        // var_dump($result);
-
+        $stmt->execute();
+        $results = $stmt->fetch();
     }
 }
 
@@ -44,7 +42,6 @@ if(!isset($_POST)){
 <body>
     <h1>自動車診断メーカー</h1>
     <div class="wrapper">
-        <div><?php echo $error; ?></div>
         <form method="POST" action="carselect.php">
         <div class="capacity">
             <div>定員</div>
@@ -67,5 +64,9 @@ if(!isset($_POST)){
         <input type="submit" name="submit" value="送信">        
         </form>
     </div>
+        <div><?php if($error !== "" ){echo $error;}; ?></div>
+        <?php if(isset($_POST['submit']) && $error == "" ): ?>
+        <div>あなたに合う車は<?php echo $results['car_name']; ?>です</div>
+        <?php endif; ?>
 </body>
 </html>
