@@ -6,10 +6,29 @@ $person = $_POST['person'];
 $model = $_POST['model'];
 $year = $_POST['year'];
 
-var_dump($person);
+if(!isset($_POST)){
 
-if (!isset($person) || !isset($model) || !isset($year)) {
-    $error = "すべての項目を選んでください";
+} else {
+    if (!isset($person) || !isset($model) || !isset($year)) {
+        $error = "すべての項目を選んでください";
+    } else {
+        try {
+            $pdo = new PDO('mysql:dbname=sousaku;host=localhost;charset=utf8','root', 'root',
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                ]);
+        } catch (PDOException $e){
+
+        }
+
+        $sql = sprintf('SELECT * FROM slectCarStyle WHERE person = %s AND model = %s AND year = %s',$person,$model,$year);
+        $stmt = $pdo->prepare($sql);
+        // $stmt->execute();
+        // $result = $stmt->fetch();
+        // var_dump($result);
+
+    }
 }
 
 ?>
