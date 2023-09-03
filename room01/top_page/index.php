@@ -24,16 +24,6 @@ $db_pass = "root";
     $stmt = $pdo->query($sql_news);
 
 
-    //ログインされていない場合は強制的にログインページにリダイレクト
-    if(!isset($_SESSION['login'])){
-      header("Location: /room01/login/index.php");
-      exit();
-    }
-
-    //ログインされている場合は表示用メッセージを編集
-    $message = $_SESSION['login']."さんようこそ";
-    $message = htmlspecialchars($message);
-
 // } else {
 //     header("WWW-Authenticate: Basic realm=\"basic\"");
 //     header("HTTP/1.0 401 Unauthorized - basic");
@@ -84,7 +74,7 @@ $db_pass = "root";
         </div>
     </div>
 <footer>
-    <a href="/room01/login/logout.php" class="logout">ログアウト</a>
+    <a href="/room01/login/index.php" class="login">ログイン</a>
 </footer>
 </div>
 </body>

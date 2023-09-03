@@ -20,7 +20,7 @@ try {
 //ログイン状態の場合ログイン後のページにリダイレクト
 if(isset($_SESSION['login'])){
     session_regenerate_id(true);
-    header("Location: /room01/top_page/index.php");
+    header("Location: /room01/top_page/blog_edit.php");
     exit();
 }
 
@@ -48,7 +48,7 @@ if(count($_POST) === 0) {
         } else {
             session_regenerate_id(true); //セッションidを再発行
             $_SESSION['login'] = $_POST['name']; //セッションにログイン情報を登録
-            header("Location: /room01/top_page/index.php");
+            header("Location: /room01/top_page/blog_edit.php.php");
             exit();
         }
     }

@@ -2,11 +2,24 @@
 
 $errors = [];
 
+session_start();
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if(!isset($_SESSION['login'])){
+  header("Location: /room01/login/index.php");
+  exit();
+}
+
+//ログインされている場合は表示用メッセージを編集
+$message = $_SESSION['login']."さんようこそ";
+$message = htmlspecialchars($message);
+
 if( isset($_POST) ){
 
     $id = null;
     $title = $_POST["title"];
     $category = $_POST["category"];
+    $contents = $_POST['text'];
 
     //名前・投稿内容の空欄確認
     if(null == $title){
@@ -33,20 +46,21 @@ if( isset($_POST) ){
         //*/
 
         //SQLを実行
-        $regist = $pdo->prepare("INSERT INTO post_blog(id, title, category, created_at) VALUES(:id,:title,:category,:created_at)");
+        $regist = $pdo->prepare("INSERT INTO blog_article(id, title, category, contents, created_at) VALUES(:id,:title,:category,:contents,:created_at)");
         $regist->bindParam(":id", $id);
-        $regist->bindParam(":name", $title);
+        $regist->bindParam(":title", $title);
         $regist->bindParam(":category", $category);
+        $regist->bindParam(":contents", $contents);
         $regist->bindParam(":created_at", $created_at);
         $regist->execute();
 
-        /*ここで「登録失敗」だった場合、SQLに誤りがある
-        if($regist) {
-            echo "登録成功";
-        } else {
-            echo "登録失敗";
-        }
-        //*/
+        //ここで「登録失敗」だった場合、SQLに誤りがある
+        // if($regist) {
+        //     echo "登録成功";
+        // } else {
+        //     echo "登録失敗";
+        // }
+
     }
 }
 
@@ -63,35 +77,21 @@ if( isset($_POST) ){
     <link rel="stylesheet" href="style.css">
 </head>
 <body style="margin: 0;">
-<center>
-    <h1>投稿画面</h1>
-    <section class="new">
-        <h2>新規投稿</h2>
-        <div id="error">
-            <?php foreach($errors as $error); ?>
-            <?php {echo $error.'<br>';}?>
-        </div>
-        <form action="/top_page/bord.php" method="post">
-            <p>カテゴリ : <input type="text" name="category"></p>
-            <p>タイトル : <input type="text" name="title"></p>
-            <p>本文<br><textarea name="text" cols="50" rows="10"></textarea></p>
-            <div><button type="submit">投稿</button></div>
-        </form>
-    </section>
-
-
-    <section class="posted">
-        <h2 class="post">投稿内容一覧</h2>
-        <div><?php echo $pagerHTML; ?></div>
-            <?php foreach($regist as $loop):?>
-                <div class="container">
-                <div class="post num">No:<?php echo $loop['id'] ?></div>
-                <div class="post name">名前:<?php echo $loop['name'] ?></div>
-                <div class="post content">投稿内容:<?php echo $loop['contents'] ?></div>
-                <div class="post time">投稿時間:<?php echo $loop['created_at']?></div>
-                </div>
-            <?php endforeach; ?>
-    </section>
-</center>
+    <center>
+        <h1>投稿画面</h1>
+        <section class="new">
+            <h2>新規投稿</h2>
+            <div id="error">
+                <?php foreach($errors as $error); ?>
+                <?php {echo $error.'<br>';}?>
+            </div>
+            <form action="blog_edit.php" method="post">
+                <p>カテゴリ : <input type="text" name="category"></p>
+                <p>タイトル : <input type="text" name="title"></p>
+                <p>本文<br><textarea name="text" cols="50" rows="10"></textarea></p>
+                <div><button type="submit">投稿</button></div>
+            </form>
+        </section>
+    </center>
 </body>
 </html>
