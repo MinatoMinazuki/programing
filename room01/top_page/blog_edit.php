@@ -92,6 +92,7 @@ if( isset($_POST) ){
                 <div><button type="submit">投稿</button></div>
             </form>
         </section>
+        <a href="blog_page.php">ブログページへ</a>
     </center>
 </body>
 </html>
