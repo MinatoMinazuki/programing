@@ -2,14 +2,14 @@
 
 $erorr = "";
 
-$person = $_POST['person'];
-$model = $_POST['model'];
-$year = $_POST['year'];
+$person = htmlspecialchars($_POST['person'], ENT_QUOTES, "UTF-8");
+$model = htmlspecialchars($_POST['model'], ENT_QUOTES, "UTF-8");
+$year = htmlspecialchars($_POST['year'], ENT_QUOTES, "UTF-8");
 
-if(!isset($_POST)){
-    
+if(empty($_POST)){
+    $error = "値を入力してください";
 } else {
-    if (!isset($person) || !isset($model) || !isset($year)) {
+    if (empty($person) || empty($model) || empty($year)) {
         $error = "すべての項目を選んでください";
     } else {
         try {
@@ -22,7 +22,7 @@ if(!isset($_POST)){
 
         }
 
-        $sql = sprintf('SELECT * FROM selectCarStyle WHERE person = "%s" AND model = "%s" AND year = "%s"',$person,$model,$year);
+        $sql = sprintf('SELECT * FROM select_car_style WHERE person = "%s" AND model = "%s" AND year = "%s"',$person,$model,$year);
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $results = $stmt->fetch();
@@ -56,7 +56,7 @@ if(!isset($_POST)){
                 <input type="radio" name="model" value="minivan">ミニバン
         </div>
         <div class="model_year">
-            <div>車種</div>
+            <div>年式</div>
                 <input type="radio" name="year" value="before">2000年以前<br>
                 <input type="radio" name="year" value="between">2001年〜2020年<br>
                 <input type="radio" name="year" value="after">2020年以降
@@ -64,8 +64,8 @@ if(!isset($_POST)){
         <input type="submit" name="submit" value="送信">        
         </form>
     </div>
-        <div><?php if($error !== "" ){echo $error;}; ?></div>
-        <?php if(isset($_POST['submit']) && $error == "" ): ?>
+        <div><?php if( !empty($error) ){echo $error;}; ?></div>
+        <?php if(isset($_POST['submit']) && empty($error)): ?>
         <div>あなたに合う車は<?php echo $results['car_name']; ?>です</div>
         <?php endif; ?>
 </body>
