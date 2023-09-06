@@ -17,19 +17,24 @@ $message = htmlspecialchars($message);
 if( isset($_POST) ){
 
     $id = null;
-    $title = $_POST["title"];
-    $category = $_POST["category"];
-    $contents = $_POST['text'];
+    $title = htmlspecialchars($_POST["title"], ENT_QUOTES, 'UTF-8');
+    $category = htmlspecialchars($_POST["category"], ENT_QUOTES, 'UTF-8');
+    $contents = htmlspecialchars($_POST['text'], ENT_QUOTES, 'UTF-8');
 
     //名前・投稿内容の空欄確認
-    if(null == $title){
+    if( empty($title) ) {
         $errors['title'] .= "タイトルを入力してください";
-    }
-    if(null == $category){
+    } 
+    if( empty($category) ) {
         $errors['category'] .= "カテゴリーを入力してください";
+    } 
+    if( empty($contents) ){
+        $errors['contents'] .= "本文を入力してください";
     }
 
-    if(!$errors){
+    var_dump($errors);
+
+    if( empty($errors) ){
         date_default_timezone_set('Asia/Tokyo');
         $created_at = date('Y-m-d H:i:s');
         //DB接続情報を設定
@@ -46,13 +51,18 @@ if( isset($_POST) ){
         //*/
 
         //SQLを実行
-        $regist = $pdo->prepare("INSERT INTO blog_article(id, title, category, contents, created_at) VALUES(:id,:title,:category,:contents,:created_at)");
-        $regist->bindParam(":id", $id);
-        $regist->bindParam(":title", $title);
-        $regist->bindParam(":category", $category);
-        $regist->bindParam(":contents", $contents);
-        $regist->bindParam(":created_at", $created_at);
-        $regist->execute();
+
+        try{
+            $regist = $pdo->prepare("INSERT INTO blog_article(id, title, category, contents, created_at) VALUES(:id,:title,:category,:contents,:created_at)");
+            $regist->bindParam(":id", $id);
+            $regist->bindParam(":title", $title);
+            $regist->bindParam(":category", $category);
+            $regist->bindParam(":contents", $contents);
+            $regist->bindParam(":created_at", $created_at);
+            $regist->execute();
+        } catch(PDOException $e) {
+            exit($e);
+        }
 
         //ここで「登録失敗」だった場合、SQLに誤りがある
         // if($regist) {

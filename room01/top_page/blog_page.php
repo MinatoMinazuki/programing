@@ -4,10 +4,14 @@ $errors = [];
 
 session_start();
 
+$id = $_GET['id'];
+
 //DB接続情報を設定
 $pdo = new PDO(
-    "mysql:dbname=sousaku;host=localhost","root","root",array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET 'utf8'")
-);
+    "mysql:dbname=sousaku;host=localhost","root","root",[
+        PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_EMULATE_PREPARES=>false,
+    ]);
 
 /*ここで「DB接続NG」だった場合、接続情報に誤りがある
 if($pdo){
@@ -18,9 +22,12 @@ if($pdo){
 //*/
 
 //SQLを実行
-$regist = $pdo->prepare("SELECT * FROM blog_article ORDER BY created_at DESC");
+$regist = $pdo->prepare("SELECT * FROM blog_article WHERE id = :id");
+$regist->bindValue(":id", (int)$id, PDO::PARAM_INT);
 $regist->execute();
-$results = $regist->fetchAll(PDO::FETCH_ASSOC);
+// $results = $regist->fetch(PDO::FETCH_ASSOC);
+
+var_dump($regist);
 
 //ここで「登録失敗」だった場合、SQLに誤りがある
 // if($regist) {
