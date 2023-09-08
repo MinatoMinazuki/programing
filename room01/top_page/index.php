@@ -52,7 +52,7 @@ $db_pass = "root";
     </div>
     <div class="header_menu">
         <span class="menuList">
-            <a href="" class="home menu">HOME</a>
+            <a href="blog_list.php" class="home menu">BLOG</a>
             <a href="" class="about menu">ABOUT</a>
             <a href="" class="items menu">ITEMS</a>
             <a href="" class="gallery menu">GALLERY</a>

@@ -48,7 +48,6 @@ try{
     <link rel="stylesheet" href="style.css">
 </head>
 <body style="margin: 0;">
-    <center>
         <h2>ブログ一覧</h2>
         <table>
         <tr>
@@ -61,10 +60,9 @@ try{
             <td><?php echo $res['id'] ?></td>
             <td><?php echo $res['title'] ?></td>
             <td><?php echo $res['category'] ?></td>
-            <td><a href="blog_page.php?=id=<?php echo $res['id'] ?>">詳細</a></td>
+            <td><a href="blog_page.php?id=<?php echo $res['id'] ?>">詳細</a></td>
         </tr>
         <?php endforeach; ?>
     </table>
-    </center>
 </body>
 </html>
