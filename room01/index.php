@@ -1,80 +1,81 @@
 <?php
 
-function esc($h){
-    htmlspecialchars($h, ENT_QUOTES, "UTF-8");
-}
-
 session_start();
 
-try {
-        $pdo = new PDO(
-            "mysql:dbname=user_master;host=localhost","root","root",array(
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            )
-        );
-} catch (PDOException $e) {
-    exit ('データベースエラー1');
-}
+//Basic認証
+$basic_user = "kubo";
+$basic_pass = "kubo";
 
-//ログイン状態の場合ログイン後のページにリダイレクト
-if(isset($_SESSION['login'])){
-    session_regenerate_id(true);
-    header("Location: /room01/top_page/index.php");
-    exit();
-}
+$errors = [];
 
-//POSTされてこなかった場合
-if(count($_POST) === 0) {
-    $message = "";
-} else {
-    //ユーザー名またはパスワードが送信されてこなかった場合
-    if(empty($_POST['name']) || empty($_POST['pass'])){
-        $message = "ユーザー名とパスワードを入力してください";
-    } else {
-        try {
-            $stmt = $pdo -> prepare('SELECT * FROM users WHERE name=?');
-            $stmt -> bindParam(1, $_POST['name'], PDO::PARAM_STR);
-            $stmt -> execute();
-            $result = $stmt -> fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e){
-            exit('データベースエラー2');
-        }
+// DB情報
+$db_name = "sousaku";
+$db_host = "localhost";
+$db_user = "root";
+$db_pass = "root";
 
-        //検索したユーザー名に対してパスワードが正しいかを検証
-        //正しくない時
-        if ($_POST['pass'] !== $result['pass']){
-            $message = "ユーザー名かパスワードが違います";
-        } else {
-            session_regenerate_id(true); //セッションidを再発行
-            $_SESSION['login'] = $_POST['name']; //セッションにログイン情報を登録
-            header("Location: /room01/top_page/index.php");
-            exit();
-        }
-    }
-}
+// if(isset($_SERVER['PHP_AUTH_USER']) && ($_SERVER['PHP_AUTH_USER'] === $basic_user && $_SERVER['PHP_AUTH_PW'] === $basic_pass){
 
+    $pdo = new PDO("mysql:dbname={$db_name}; host={$db_host}", "{$db_user}", "{$db_pass}", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET CHARACTER SET 'utf8'")
+    );
+
+    $sql_news = "SELECT * FROM `news` ORDER BY `id` DESC;";
+
+    $stmt = $pdo->query($sql_news);
+
+
+// } else {
+//     header("WWW-Authenticate: Basic realm=\"basic\"");
+//     header("HTTP/1.0 401 Unauthorized - basic");
+//     echo "<p>Unauthorized</p>";
+//     exit();
+// }
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン画面</title>
+    <title>制作物の倉庫</title>
+    <link rel="stylesheet" href="homepage.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;400;500;700&family=Sawarabi+Gothic&display=swap" rel="stylesheet">
 </head>
 <body>
-        <h1>ログイン画面</h1>
-        <div class="message"><?php echo $message; ?></div>
-        <div class="loginform">
-            <form method="post" action="index.php">
-                <div class="login_display">
-                <div class="login_name">ログイン名:<input type="text" name="name" value="<?php echo esc($login_name); ?>"></div>
-                <div class="login_pass">パスワード:<input type="password" name="pass" value="<?php echo esc($login_pass); ?>"></div>
-                <div class="login_btn"><input type="submit" name="login" value="ログイン"></div>
-                </div>
-        </form>
+    <div class="wrapper">
+    <div id="topImage">
+        <h2 class="title">深黒兎の制作物倉庫</h2>
+    </div>
+    <div class="header_menu">
+        <span class="menuList">
+            <a href="blog_list.php" class="home menu">BLOG</a>
+            <a href="" class="about menu">ABOUT</a>
+            <a href="" class="items menu">ITEMS</a>
+            <a href="" class="gallery menu">GALLERY</a>
+            <a href="" class="news menu">NEWS</a>
+        </span>
+    </div>
+    <div class="contents">
+        <div class="content_news">
+            <span class="content_title">NEWS</span>
+                <?php foreach($stmt as $loop):?>
+                    <div class="container container_news">
+                        <span class="news_time">更新日時:<?php echo $loop['created_at'] ?></span>
+                        <span class="news_content"><?php echo $loop['contents'] ?>が更新されました！</span>
+                    </div>
+                <?php endforeach; ?>
         </div>
+        <div class="content_gall">
+            <span class="content_title gall">GALLERY</span>
+        </div>
+    </div>
+<footer>
+    <a href="/room01/login/index.php" class="login">ログイン</a>
+</footer>
+</div>
 </body>
 </html>
