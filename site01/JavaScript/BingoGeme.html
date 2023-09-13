@@ -15,47 +15,119 @@
     <div class="sheet">
       <table border="3">
         <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr class="1stLine">
+          <td class="1stColumn leftDiagonal"></td>
+          <td class="2ndColumn"></td>
+          <td class="3rdColumn"></td>
+          <td class="4thColumn"></td>
+          <td class="5thColumn rightDiagonal"></td>
         </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr class="2ndLine">
+          <td class="1stColumn"></td>
+          <td class="2ndColumn leftDiagonal"></td>
+          <td class="3rdColumn"></td>
+          <td class="4thColumn rightDiagonal"></td>
+          <td class="5thColumn"></td>
         </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr class="3rdLine">
+          <td class="1stColumn"></td>
+          <td class="2ndColumn"></td>
+          <td class="3rdColumn leftDiagonal rightDiagonal hit">☆</td>
+          <td class="4thColumn"></td>
+          <td class="5thColumn"></td>
         </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr class="4thLine">
+          <td class="1stColumn"></td>
+          <td class="2ndColumn rightDiagonal"></td>
+          <td class="3rdColumn"></td>
+          <td class="4thColumn leftDiagonal"></td>
+          <td class="5thColumn"></td>
         </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr class="5thLine">
+          <td class="1stColumn rightDiagonal"></td>
+          <td class="2ndColumn"></td>
+          <td class="3rdColumn"></td>
+          <td class="4thColumn"></td>
+          <td class="5thColumn leftDiagonal"></td>
         </tr>
       </tbody>
       </table>
+      <div id="bingoResult"></div>
     </div>
   </div>
 </body>
-<style type="text/css"></style>
+<style type="text/css">
+  .hit{
+    color: red;
+  }
+
+  body {
+    font-family: arial, sans-serif;
+}
+
+  .wrapper {
+      margin: 0 auto;
+      text-align: center;
+  }
+
+  .centering {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+  }
+
+  /* ルーレット */
+  .result {
+      border: solid 1px #B78D4A;
+      border-radius: 50%;
+      font-size: 70px;
+      
+      margin-bottom: 20px;
+      width: 130px;
+      height: 130px;
+  }
+
+  /* 出た数字の一覧 */
+  .number {
+      color: #B78D4A;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      margin: 0 auto;
+      list-style: none;
+      width: 80%;
+      padding: 0;
+  }
+
+  .number li {
+      background-color: #B78D4A;
+      color: #fff;
+      border-radius: 10px;
+      height: 40px;
+      margin: 4px;
+      width: 40px;
+  }
+
+  /* ボタン */
+  .wrapper-button {
+      padding: 20px 0;
+  }
+
+  .button {
+      font-size: 30px;
+      display: inline-block;
+      padding: .8rem 1.6rem;
+      border: none;
+      border-radius: 25px;
+      color: #FFF;
+      background-image: linear-gradient(45deg, #B78D4A 0%, #D4BB92 100%);
+  }
+
+  .button:hover {
+      background-image: linear-gradient(45deg, #D4BB92 0%, #FDE0A5 100%);
+  }
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 <script type="text/javascript">
@@ -82,7 +154,9 @@
               return false;
 
             } else {
+
               return true;
+
             }
           });
           break;
@@ -90,21 +164,8 @@
       }
     }
 
-    $("tbody").find("td").each(function(){
-      var Num = $(this).text();
-      if(Num.length){
-        console.log("yes")
-      } else {
-        console.log("No");
-      }
-    })
-
-
     console.log(randoms);
 
-  });
-
-  $(function(){
     var maxCount = 75;
     var bingo = [];
     for(var i = 1; i <= maxCount; i++){
@@ -135,9 +196,8 @@
           $("tbody").find("td").each(function(){
             if($(this).text() === String(bingo[randomNum])){
               $(this).addClass("hit");
-              console.log("true");
             } else {
-              console.log("false");
+              //
             }
 
           });
@@ -151,7 +211,28 @@
 
         $("#number").append($("<li>").text(result));
         $("#number li").addClass("centering");
+
+        $("tbody").each(function(){
+          if($(this).find(".1stLine").find(".hit").length === 5 || $(this).find(".2ndLine").find(".hit").length === 5 || $(this).find(".3rdLine").find(".hit").length === 5 || $(this).find(".4thLine").find(".hit").length === 5 || $(this).find(".5thLine").find(".hit").length === 5){
+
+            $("#bingoResult").text("BINGO!!");
+            console.log("よこ");
+
+          } else if($(this).find(".1stColumn.hit").length === 5 || $(this).find(".2ndColumn.hit").length === 5 ||$(this).find(".3rdColumn.hit").length === 5 || $(this).find(".4thColumn.hit").length === 5 || $(this).find(".5thColumn.hit").length === 5){
+
+            $("#bingoResult").text("BINGO!!");
+            console.log("たて");
+
+          } else if($(this).find(".leftDiagonal.hit").length === 5 || $(this).find(".rightDiagonal.hit").length === 5){
+
+            $("#bingoResult").text("BINGO!!");
+            console.log("ななめ");
+
+          }
+        });
       }
+
+
     });
   });
 </script>
