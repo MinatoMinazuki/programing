@@ -7,12 +7,10 @@
 </head>
 <body>
   <div class="wrapper">
-    <div id="result" class="result centering"></div>
-    <div class="wrapper-button">
-      <button id="button" class="button">START</button>
+    <div id="bingoResult">
+      <img src="img/Bingo.jpeg">
     </div>
-    <ul id="number" class="number"></ul>
-    <div class="sheet">
+    <div class="wrapper_sheet">
       <table border="3">
         <tbody>
         <tr class="1stLine">
@@ -52,11 +50,19 @@
         </tr>
       </tbody>
       </table>
-      <div id="bingoResult"></div>
+    </div>
+    <div class="wrapper_number">
+      <div id="result" class="result centering"></div>
+      <div class="wrapper-button">
+        <button id="button" class="button">START</button>
+        <button id="button" class="button reset">RESET</button>
+      </div>
+      <ul id="number" class="number"></ul>
     </div>
   </div>
 </body>
 <style type="text/css">
+
   .hit{
     color: red;
   }
@@ -122,11 +128,56 @@
       border-radius: 25px;
       color: #FFF;
       background-image: linear-gradient(45deg, #B78D4A 0%, #D4BB92 100%);
+      margin: 0 10px;
+      cursor: pointer;
   }
 
   .button:hover {
       background-image: linear-gradient(45deg, #D4BB92 0%, #FDE0A5 100%);
   }
+
+  #bingoResult{
+    height: 160px;
+  }
+
+  #bingoResult img{
+    width: 300px;
+    display: none;
+    margin: auto;
+  }
+
+  .wrapper_sheet {
+    display: flex;
+    justify-content: space-around;
+    padding-bottom: 50px;
+    font-size: 28px;
+  }
+
+  .hit:after{
+    content: "";
+    background-image: url(img/hitMark.jpeg);
+    background-size: cover;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 0;
+    left: 0;
+  }
+
+  table{
+    padding: 10px;
+  }
+
+  td{
+    position: relative;
+    width: 40px;
+    height: 40px;
+  }
+
+  .reset{
+    display: none;
+  }
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
@@ -164,15 +215,11 @@
       }
     }
 
-    console.log(randoms);
-
     var maxCount = 75;
     var bingo = [];
     for(var i = 1; i <= maxCount; i++){
       bingo.push(i);
     }
-
-    console.log(bingo.length);
 
     var timer;
     var randomNum;
@@ -202,12 +249,16 @@
 
           });
 
-
-          console.log(bingo[randomNum]);
-
         var result = bingo[randomNum];
 
         bingo.splice(randomNum, 1);
+
+        if(bingo.length === 0){
+          $(".button").css("display","none");
+          $(".reset").css("display", "inline-block");
+        } else {
+          //
+        }
 
         $("#number").append($("<li>").text(result));
         $("#number li").addClass("centering");
@@ -215,25 +266,28 @@
         $("tbody").each(function(){
           if($(this).find(".1stLine").find(".hit").length === 5 || $(this).find(".2ndLine").find(".hit").length === 5 || $(this).find(".3rdLine").find(".hit").length === 5 || $(this).find(".4thLine").find(".hit").length === 5 || $(this).find(".5thLine").find(".hit").length === 5){
 
-            $("#bingoResult").text("BINGO!!");
-            console.log("よこ");
+            $("#bingoResult img").css("display","block");
+            $(".reset").css("display","inline-block");
 
           } else if($(this).find(".1stColumn.hit").length === 5 || $(this).find(".2ndColumn.hit").length === 5 ||$(this).find(".3rdColumn.hit").length === 5 || $(this).find(".4thColumn.hit").length === 5 || $(this).find(".5thColumn.hit").length === 5){
 
-            $("#bingoResult").text("BINGO!!");
-            console.log("たて");
+            $("#bingoResult img").css("display","block");
+            $(".reset").css("display","inline-block");
 
           } else if($(this).find(".leftDiagonal.hit").length === 5 || $(this).find(".rightDiagonal.hit").length === 5){
 
-            $("#bingoResult").text("BINGO!!");
-            console.log("ななめ");
+            $("#bingoResult img").css("display","block");
+            $(".reset").css("display","inline-block");
 
           }
         });
       }
-
-
     });
+
+    $(".reset").on("click",function(){
+      location.reload();
+    });
+
   });
 </script>
 </html>
