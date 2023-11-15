@@ -1,0 +1,9 @@
+# Basic認証
+<Files ~ "^\.(htaccess|htpasswd)$">
+deny from all
+</Files>
+AuthUserFile /Applications/MAMP/htdocs/files/programing/room01/top_page/.htpasswd
+AuthGroupfile /dev/null
+AuthName "Please enter your ID and password"
+AuthType Basic
+require valid-user
