@@ -6,7 +6,7 @@
 }
 
 div#topImage{
-    background-image: url(/room01/img/jinja_back.png);
+    background-image: url(/img/jinja_back.png);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;

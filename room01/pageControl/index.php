@@ -6,7 +6,7 @@ session_start();
 
 //ログインされていない場合は強制的にログインページにリダイレクト
 if(!isset($_SESSION['login'])){
-  header("Location: /room01/login/index.php");
+  header("Location: /login/index.php");
   exit();
 }
 
@@ -19,19 +19,21 @@ if(!isset($_SESSION['login'])){
 <head>
     <meta charset="UTF-8">
     <title>管理画面</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body style="margin: 0;">
         <h1>管理画面</h1>
         <ul>
             <li>
-                <a href="/room01/top_page/blog_list.php">ブログ一覧へ</a>
+                <a href="/top_page/blog_list.php">ブログ一覧へ</a>
             </li>
             <li>
-                <a href="/room01/login/signUp.php">新規登録へ</a>
+                <a href="../index.php">トップページへ</a>
             </li>
             <li>
-                <a href="/room01/login/logout.php">ログアウト</a>
+                <a href="/login/signUp.php">ユーザー新規登録へ</a>
+            </li>
+            <li>
+                <a href="/login/logout.php">ログアウト</a>
             </li>
 </body>
 <style>
@@ -39,8 +41,19 @@ if(!isset($_SESSION['login'])){
         margin: 0;
     }
 
+    h1{
+        text-align: center;
+        letter-spacing: 5px;
+    }
+
+    ul{
+        text-align: center;
+        padding: 0;
+    }
+
     li {
         list-style: none;
+        padding-top: 10px;
     }
 </style>
 </html>

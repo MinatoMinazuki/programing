@@ -6,7 +6,7 @@ session_start();
 
 //ログインされていない場合は強制的にログインページにリダイレクト
 if(!isset($_SESSION['login'])){
-  header("Location: /room01/login/index.php");
+  header("Location: /login/index.php");
   exit();
 }
 
@@ -93,7 +93,6 @@ if( isset($_POST) ){
 <head>
     <meta charset="UTF-8">
     <title>ブログ投稿</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 <body style="margin: 0;">
     <center>

@@ -20,7 +20,7 @@ try {
 //ログイン状態の場合ログイン後のページにリダイレクト
 if(isset($_SESSION['login'])){
     session_regenerate_id(true);
-    header("Location: /room01/pageControl/index.php");
+    header("Location: /pageControl/index.php");
     exit();
 }
 
@@ -48,7 +48,7 @@ if(count($_POST) === 0) {
         } else {
             session_regenerate_id(true); //セッションidを再発行
             $_SESSION['login'] = $_POST['name']; //セッションにログイン情報を登録
-            header("Location: /room01/pageControl/index.php");
+            header("Location: /pageControl/index.php");
             exit();
         }
     }
@@ -70,11 +70,14 @@ if(count($_POST) === 0) {
         <div class="loginform">
             <form method="post" action="index.php">
                 <div class="login_display">
-                <div class="login_name">ログイン名:<input type="text" name="name" value="<?php echo esc($login_name); ?>"></div>
-                <div class="login_pass">パスワード:<input type="password" name="pass" value="<?php echo esc($login_pass); ?>"></div>
+                <div class="login_name">ログイン名：<input type="text" name="name" value="<?php echo esc($login_name); ?>"></div>
+                <div class="login_pass">パスワード：<input type="password" name="pass" value="<?php echo esc($login_pass); ?>"></div>
                 <div class="login_btn"><input type="submit" name="login" value="ログイン"></div>
                 </div>
-        </form>
+            </form>
+        </div>
+        <div>
+            <a href="../index.php">トップページへ</a>
         </div>
 </body>
 </html>

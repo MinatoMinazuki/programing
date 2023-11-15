@@ -74,7 +74,7 @@ $db_pass = "root";
         </div>
     </div>
 <footer>
-    <a href="/room01/login/index.php" class="login">ログイン</a>
+    <a href="/../login/index.php" target="_blank" class="login">ログイン</a>
 </footer>
 </div>
 </body>

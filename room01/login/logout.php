@@ -4,7 +4,7 @@ session_start();
 
 //ログインされていない場合は強制的にログインページにリダイレクト
 if(!isset($_SESSION['login'])){
-  header("Location: /room01/login/index.php");
+  header("Location: /login/index.php");
   exit();
 }
 
@@ -31,6 +31,6 @@ session_destroy();
 <body>
 <h1>ログアウトページ</h1>
 <div class="message">ログアウトしました</div>
-<a href="/room01/login/index.php">ログインページへ</a>
+<a href="/login/index.php">ログインページへ</a>
 </body>
 </html>
