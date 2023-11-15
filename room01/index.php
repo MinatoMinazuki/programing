@@ -40,10 +40,10 @@ $db_pass = "root";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>制作物の倉庫</title>
-    <link rel="stylesheet" href="homepage.css">
+    <link rel="stylesheet" href="homepage_top.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;400;500;700&family=Sawarabi+Gothic&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;400;500;700&family=Sawarabi+Gothic&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="wrapper">
@@ -52,7 +52,7 @@ $db_pass = "root";
     </div>
     <div class="header_menu">
         <span class="menuList">
-            <a href="blog_list.php" class="home menu">BLOG</a>
+            <a href="/top_page/blog_list.php" class="home menu">BLOG</a>
             <a href="" class="about menu">ABOUT</a>
             <a href="" class="items menu">ITEMS</a>
             <a href="" class="gallery menu">GALLERY</a>

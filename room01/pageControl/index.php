@@ -27,6 +27,9 @@ if(!isset($_SESSION['login'])){
                 <a href="/top_page/blog_list.php">ブログ一覧へ</a>
             </li>
             <li>
+                <a href="/top_page/blog_edit.php">ブログ投稿へ</a>
+            </li>
+            <li>
                 <a href="../index.php">トップページへ</a>
             </li>
             <li>
