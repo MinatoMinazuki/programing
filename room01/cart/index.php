@@ -1,12 +1,17 @@
 <?php
 
-require('dbConnect.php');
+require_once 'dbConnect.php';
 
-$recordSet = mysql_query($db, 'SELECT * FROM goods ORDER BY id DESC');
+$connect = new connect();
+
+$recordSet = sprintf("SELECT * FROM goods ORDER BY id DESC");
+
+$res = $connect->query($recordSet);
+
+var_dump($res);
 
 ?>
 
-<!DOCTYPE html>
 <!DOCTYPE html>
 <html>
 <head>
