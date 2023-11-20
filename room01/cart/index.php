@@ -6,7 +6,7 @@ $connect = new connect();
 
 $recordSet = sprintf("SELECT * FROM goods ORDER BY id DESC");
 
-$res = $connect->query($recordSet);
+$res = $connect->select($recordSet);
 
 var_dump($res);
 

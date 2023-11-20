@@ -30,11 +30,13 @@ class connect
     $this->dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
   }
 
-  public function query($sql, $param = null){
-    $stmt = $this->dbh->prepare($sql);
-    $stmt->execute($param);
-    return $stmt;
+  public function select($sql){
+    $stmt = $this->dbh->query($sql);
+    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $items;
   }
+
+  public function plural()
 }
 
 ?>
