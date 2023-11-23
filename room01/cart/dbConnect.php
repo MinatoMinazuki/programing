@@ -36,7 +36,11 @@ class connect
     return $items;
   }
 
-  public function plural()
+  public function plural($sql, $item){
+    $stmt = $this->dbh->query($sql);
+    $stmt->execute(array(":id"=>$item));
+    return $stmt;
+  }
 }
 
 ?>
