@@ -10,22 +10,22 @@ $result = $connect->select($recordSet);
 
 foreach ($result as $key => $val) {
 
+  $productId = $val["id"];
   $productName = $val["name"];
   $sendDate = $val["send"];
   $productSize = $val["size"];
   $productStock = $val["stock"];
 
   $orderStock = intval($productStock);
+  $orderNum = "";
 
-  for ($i = 0; $i < $orderStock; $i++) { 
-    if($i = 0){
-      $orderNum = "<option value='{$i}' disabled selected>選択してください</option>";
+  for ($i = 0; $i <= $orderStock; $i++) { 
+    if($i === 0){
+      $orderNum .= "<option value='{$i}' selected>選択</option>";
     } else {
-      $orderNum = "<option value='{$i}'>{$i}</option>";
+      $orderNum .= "<option value='{$i}'>{$i}</option>";
     }
   }
-
-  var_dump($orderStock);
 
   $trTag .= "<tr>
                   <td>{$productName}</td>
@@ -33,6 +33,7 @@ foreach ($result as $key => $val) {
                   <td>{$productSize}</td>
                   <td>{$productStock}</td>
                   <td><select>{$orderNum}</select></td>
+                  <td><input type=button value='カートに入れる' data-product-id='{$productId}'></td>
             </tr>";
 }
 
@@ -43,6 +44,8 @@ foreach ($result as $key => $val) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="../js/cartPage.js"></script>
   <title>一覧ページ</title>
 </head>
 <body>
