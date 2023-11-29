@@ -19,6 +19,16 @@ foreach ($result as $key => $val) {
   $orderStock = intval($productStock);
   $orderNum = "";
 
+  $stocks = intval($productStock);
+
+  if($stocks > 0 && $stocks <= 5){
+    $stockText = "残りわずか";
+  } else if($stocks === 0){
+    $stockText = "品切れ";
+  } else {
+    $stockText = "在庫あり";
+  }
+
   for ($i = 0; $i <= $orderStock; $i++) { 
     if($i === 0){
       $orderNum .= "<option value='{$i}' selected>選択</option>";
@@ -31,9 +41,9 @@ foreach ($result as $key => $val) {
                   <td>{$productName}</td>
                   <td>{$sendDate}</td>
                   <td>{$productSize}</td>
-                  <td>{$productStock}</td>
+                  <td>{$stockText}</td>
                   <td><select>{$orderNum}</select></td>
-                  <td><input type=button value='カートに入れる' data-product-id='{$productId}'></td>
+                  <td><input type=button value='カートに入れる' class='intoCartBtn' data-product-id='{$productId}' data-product-stock='{$productStock}'></td>
             </tr>";
 }
 
@@ -46,6 +56,7 @@ foreach ($result as $key => $val) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="../js/cartPage.js"></script>
+  <link rel="stylesheet" href="../css/cartPage.css">
   <title>一覧ページ</title>
 </head>
 <body>
@@ -59,5 +70,10 @@ foreach ($result as $key => $val) {
     </tr>
     <?php echo $trTag; ?>
   </table>
+  <div class="cartIconOuter" data-show="0">
+    <a href="#" class="cartIcon">
+      <img src="../img/shopping-cart-empty-1.png">
+    </a>
+  </div>
 </body>
 </html>
