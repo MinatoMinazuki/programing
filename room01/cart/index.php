@@ -21,7 +21,7 @@ foreach ($result as $key => $val) {
 
   $stocks = intval($productStock);
 
-  if($stocks > 0 && $stocks <= 5){
+  if($stocks > 0 && $stocks < 5){
     $stockText = "残りわずか";
   } else if($stocks === 0){
     $stockText = "品切れ";
@@ -42,8 +42,7 @@ foreach ($result as $key => $val) {
                   <td>{$sendDate}</td>
                   <td>{$productSize}</td>
                   <td>{$stockText}</td>
-                  <td><select>{$orderNum}</select></td>
-                  <td><input type=button value='カートに入れる' class='intoCartBtn' data-product-id='{$productId}' data-product-stock='{$productStock}'></td>
+                  <td><select name='{$productName}'>{$orderNum}</select></td>
             </tr>";
 }
 
@@ -55,25 +54,29 @@ foreach ($result as $key => $val) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="../js/cartPage.js"></script>
-  <link rel="stylesheet" href="../css/cartPage.css">
+  <script type="text/javascript" src="../js/cartPage.js?p=<?php echo time(); ?>"></script>
+  <link rel="stylesheet" href="../css/cartPage.css?p=<?php echo time(); ?>">
   <title>一覧ページ</title>
 </head>
 <body>
-  <table>
-    <tr>
-      <th>商品名</th>
-      <th>配送日時</th>
-      <th>商品サイズ</th>
-      <th>在庫</th>
-      <th>注文数</th>
-    </tr>
-    <?php echo $trTag; ?>
-  </table>
-  <div class="cartIconOuter" data-show="0">
+  <form method="post" action="cartCheck.php">
+    <table>
+      <tr>
+        <th>商品名</th>
+        <th>配送日時</th>
+        <th>商品サイズ</th>
+        <th>在庫</th>
+        <th>注文数</th>
+      </tr>
+      <?php echo $trTag; ?>
+    </table>
+    <input type="submit" value="注文確定する">
+  </form>
+<!--   <div class="cartIconOuter" data-show="0">
     <a href="#" class="cartIcon">
+      <span class="intoCartNumber">1</span>
       <img src="../img/shopping-cart-empty-1.png">
     </a>
-  </div>
+  </div> -->
 </body>
 </html>

@@ -12,3 +12,20 @@
 .cartIconOuter[data-show="1"]{
     display: block;
 }
+
+.cartIconOuter{
+    position: sticky;
+}
+
+.cartIcon{
+    position: relative;
+}
+
+.intoCartNumber{
+    position: absolute;
+    left: 45px;
+    top: -45px;
+    border-radius: 100%;
+    text-decoration: none;
+    display: block;
+}
