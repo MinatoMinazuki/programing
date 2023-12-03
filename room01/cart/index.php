@@ -17,7 +17,7 @@ foreach ($result as $key => $val) {
   $productStock = $val["stock"];
 
   $orderStock = intval($productStock);
-  $orderNum = "";
+  $orderNum = ""; // 初期化
 
   $stocks = intval($productStock);
 
@@ -42,8 +42,11 @@ foreach ($result as $key => $val) {
                   <td>{$sendDate}</td>
                   <td>{$productSize}</td>
                   <td>{$stockText}</td>
-                  <td><select name='{$productName}'>{$orderNum}</select></td>
-            </tr>";
+                  <td><select name='orders[]'>{$orderNum}</select></td>
+            </tr>
+            <input type='hidden' name='orders[]' value='{$sendDate}'>
+            <input type='hidden' name='orders[]' value='{$productSize}'>
+            <input type='hidden' name'orders[]' value='{$productId}'>";
 }
 
 ?>
@@ -56,7 +59,7 @@ foreach ($result as $key => $val) {
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="../js/cartPage.js?p=<?php echo time(); ?>"></script>
   <link rel="stylesheet" href="../css/cartPage.css?p=<?php echo time(); ?>">
-  <title>一覧ページ</title>
+  <title>商品一覧ページ</title>
 </head>
 <body>
   <form method="post" action="cartCheck.php">
@@ -70,13 +73,7 @@ foreach ($result as $key => $val) {
       </tr>
       <?php echo $trTag; ?>
     </table>
-    <input type="submit" value="注文確定する">
+    <input type="submit" value="注文を確認する">
   </form>
-<!--   <div class="cartIconOuter" data-show="0">
-    <a href="#" class="cartIcon">
-      <span class="intoCartNumber">1</span>
-      <img src="../img/shopping-cart-empty-1.png">
-    </a>
-  </div> -->
 </body>
 </html>

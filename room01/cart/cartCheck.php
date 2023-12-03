@@ -12,31 +12,34 @@ $error = [];
 $cartContents = [];
 $orders = [];
 
-if(isset($_POST)){
+$tag ="";
 
-  foreach ($result as $key => $val) {
+foreach ($result as $key => $val) {
 
-    $productId = $val["id"];
-    $productName = $val["name"];
-    $sendDate = $val["send"];
-    $productSize = $val["size"];
-    $productStock = $val["stock"];
+  $productId = $val["id"];
+  $productName = $val["name"];
+  $sendDate = $val["send"];
+  $productSize = $val["size"];
+  $productStock = $val["stock"];
 
-    if($_POST[$productName] !== "0"){
-      array_push($cartContents, $productName);
-      array_push($orders, $_POST[$productName]);
-    }
-
+  if($_POST['orders'][$key] !== "0"){
+    array_push($cartContents, $productName);
+    array_push($orders, $_POST['orders'][$key]);
   }
-
-} else {
-
-  array_push($error, "商品が選ばれていません。やり直してください。");
 
 }
 
-var_dump($orders);
-var_dump($cartContents);
+$cnt = count($cartContents);
+
+for($i = 0; $i <= $cnt; $i++){
+  $tag .= "<div><span>{$cartContents[$i]}</span>";
+  $tag .="<span>{$orders[$i]}</span></div>";
+}
+
+var_dump($_POST);
+// var_dump($cartContents);
+// var_dump($orders);
+// var_dump($error);
 
 ?>
 
@@ -48,10 +51,10 @@ var_dump($cartContents);
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="../js/cartPage.js?p=<?php //echo time(); ?>"></script>
   <link rel="stylesheet" href="../css/cartPage.css?p=<?php //echo time(); ?>">
-  <title>一覧ページ</title>
+  <title>注文確認</title>
 </head>
 <body>
-  <form method="post" action=>
+    <form method="post" action="cartCheck.php">
     <table>
       <tr>
         <th>商品名</th>
@@ -60,15 +63,9 @@ var_dump($cartContents);
         <th>在庫</th>
         <th>注文数</th>
       </tr>
-      <?php echo $trTag; ?>
+      <?php //echo $trTag; ?>
     </table>
-    <input type="submit" value="注文確定する">
+    <input type="submit" value="注文を確認する">
   </form>
-   <div class="cartIconOuter" data-show="0">
-    <a href="#" class="cartIcon">
-      <span class="intoCartNumber">1</span>
-      <img src="../img/shopping-cart-empty-1.png">
-    </a>
-  </div>
 </body>
 </html> -->
