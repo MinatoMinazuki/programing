@@ -37,16 +37,15 @@ foreach ($result as $key => $val) {
     }
   }
 
-  $trTag .= "<tr>
+  $trTag .= <<<EOF
+            <tr>
                   <td>{$productName}</td>
                   <td>{$sendDate}</td>
                   <td>{$productSize}</td>
                   <td>{$stockText}</td>
                   <td><select name='orders[]'>{$orderNum}</select></td>
             </tr>
-            <input type='hidden' name='orders[]' value='{$sendDate}'>
-            <input type='hidden' name='orders[]' value='{$productSize}'>
-            <input type='hidden' name'orders[]' value='{$productId}'>";
+EOF;
 }
 
 ?>

@@ -12,8 +12,6 @@ $error = [];
 $cartContents = [];
 $orders = [];
 
-$tag ="";
-
 foreach ($result as $key => $val) {
 
   $productId = $val["id"];
@@ -23,34 +21,33 @@ foreach ($result as $key => $val) {
   $productStock = $val["stock"];
 
   if($_POST['orders'][$key] !== "0"){
-    array_push($cartContents, $productName);
-    array_push($orders, $_POST['orders'][$key]);
+    $tag.=<<<EOF
+          <tr>
+            <td>{$productName}</td>
+            <td>{$sendDate}</td>
+            <td>{$productSize}</td>
+            <td>{$_POST['orders'][$key]}</td>
+            <input type="hidden" value='{$productId}'>
+          </tr>
+EOF;
   }
-
 }
 
-$cnt = count($cartContents);
-
-for($i = 0; $i <= $cnt; $i++){
-  $tag .= "<div><span>{$cartContents[$i]}</span>";
-  $tag .="<span>{$orders[$i]}</span></div>";
-}
-
-var_dump($_POST);
-// var_dump($cartContents);
-// var_dump($orders);
-// var_dump($error);
+//var_dump($_POST);
+//var_dump($cartContents);
+//var_dump($orders);
+//var_dump($error);
 
 ?>
 
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script type="text/javascript" src="../js/cartPage.js?p=<?php //echo time(); ?>"></script>
-  <link rel="stylesheet" href="../css/cartPage.css?p=<?php //echo time(); ?>">
+  <script type="text/javascript" src="../js/cartPage.js?p=<?php echo time(); ?>"></script>
+  <link rel="stylesheet" href="../css/cartPage.css?p=<?php echo time(); ?>">
   <title>注文確認</title>
 </head>
 <body>
@@ -60,12 +57,11 @@ var_dump($_POST);
         <th>商品名</th>
         <th>配送日時</th>
         <th>商品サイズ</th>
-        <th>在庫</th>
         <th>注文数</th>
       </tr>
-      <?php //echo $trTag; ?>
+      <?php echo $tag; ?>
     </table>
-    <input type="submit" value="注文を確認する">
+    <input type="submit" value="注文を確定する">
   </form>
 </body>
-</html> -->
+</html>
