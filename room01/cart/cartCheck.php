@@ -12,6 +12,9 @@ $error = [];
 $cartContents = [];
 $orders = [];
 
+$emptyCnt = 0;
+
+
 foreach ($result as $key => $val) {
 
   $productId = $val["id"];
@@ -21,6 +24,8 @@ foreach ($result as $key => $val) {
   $productStock = $val["stock"];
 
   if($_POST['orders'][$key] !== "0"){
+    $orderNum = $_POST['orders'][$key];
+
     $tag.=<<<EOF
           <tr>
             <td>{$productName}</td>
@@ -28,9 +33,23 @@ foreach ($result as $key => $val) {
             <td>{$productSize}</td>
             <td>{$_POST['orders'][$key]}</td>
             <input type="hidden" value='{$productId}'>
+            <input type="hidden" value='{$orderNum}'>
           </tr>
 EOF;
+  } else {
+    $emptyCnt++;
   }
+
+  if($emptyCnt === count($result)){
+    array_push($error, "商品が選ばれていません。");
+  }
+}
+
+if(!empty($error)){
+  for($i=0; $i <= count($error); $i++){
+    echo $error[$i];
+  };
+  exit();
 }
 
 //var_dump($_POST);
@@ -51,7 +70,7 @@ EOF;
   <title>注文確認</title>
 </head>
 <body>
-    <form method="post" action="cartCheck.php">
+    <form method="post" action="cartConfirm.php">
     <table>
       <tr>
         <th>商品名</th>
