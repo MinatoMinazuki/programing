@@ -33,7 +33,7 @@ foreach ($result as $key => $val) {
     if($i === 0){
       $orderNum .= "<option value='{$i}' selected>選択</option>";
     } else {
-      $orderNum .= "<option value='{$i}'>{$i}</option>";
+      $orderNum .= "<option value='{$i},{$productId}'>{$i}</option>";
     }
   }
 
@@ -43,7 +43,7 @@ foreach ($result as $key => $val) {
                   <td>{$sendDate}</td>
                   <td>{$productSize}</td>
                   <td>{$stockText}</td>
-                  <td><select name='orders[]'>{$orderNum}</select></td>
+                  <td><select name='orderNum[]'>{$orderNum}</select></td>
             </tr>
 EOF;
 }

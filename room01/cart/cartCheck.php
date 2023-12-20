@@ -4,45 +4,59 @@ require_once 'dbConnect.php';
 
 $connect = new connect();
 
-$recordSet = sprintf("SELECT * FROM goods ORDER BY id ASC");
-$result = $connect->select($recordSet);
-
-$error = [];
-
 $cartContents = [];
 $orders = [];
 
-$emptyCnt = 0;
+$error = [];
+
+$orderNum = $_POST['orderNum'];
 
 
-foreach ($result as $key => $val) {
 
-  $productId = $val["id"];
-  $productName = $val["name"];
-  $sendDate = $val["send"];
-  $productSize = $val["size"];
-  $productStock = $val["stock"];
+for ($i=0; $i < count($orderNum); $i++) { 
+  if($orderNum[$i] !== ""){
+    $orderIds = explode(",", $orderNum[$i]);
+  }
+}
+  var_dump($orderIds);
 
-  if($_POST['orders'][$key] !== "0"){
-    $orderNum = $_POST['orders'][$key];
+foreach($orderIds as $orderId){
 
-    $tag.=<<<EOF
-          <tr>
-            <td>{$productName}</td>
-            <td>{$sendDate}</td>
-            <td>{$productSize}</td>
-            <td>{$_POST['orders'][$key]}</td>
-            <input type="hidden" value='{$productId}'>
-            <input type="hidden" value='{$orderNum}'>
-          </tr>
-EOF;
-  } else {
-    $emptyCnt++;
+    $recordSet = sprintf("SELECT * FROM goods WHERE id = '%s' ORDER BY id ASC", $orderId);
+    $result = $connect->select($recordSet);
+
+  foreach ($result as $key => $val) {
+
+    $emptyCnt = 0;
+
+    $productId = $val["id"];
+    $productName = $val["name"];
+    $sendDate = $val["send"];
+    $productSize = $val["size"];
+    $productStock = $val["stock"];
+
+    if($_POST['orders'][$key] !== "0"){
+      $orderNum = $_POST['orders'][$key]; // 注文数
+
+      $tag.=<<<EOF
+            <tr>
+              <td>{$productName}</td>
+              <td>{$sendDate}</td>
+              <td>{$productSize}</td>
+              <td>{$_POST['orders'][$key]}</td>
+              <input type="hidden" value='{$productId}'>
+              <input type="hidden" value='{$orderNum}'>
+            </tr>
+  EOF;
+    } else {
+      $emptyCnt++;
+    }
+
+    if($emptyCnt === count($result)){
+      array_push($error, "商品が選ばれていません。");
+    }
   }
 
-  if($emptyCnt === count($result)){
-    array_push($error, "商品が選ばれていません。");
-  }
 }
 
 if(!empty($error)){

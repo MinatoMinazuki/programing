@@ -1,7 +1,7 @@
 $(function(){
-    $(".intoCartBtn").on("click", function(){
-        $(".cartIconOuter").attr("data-show", "1");
-    });
+    // $(".intoCartBtn").on("click", function(){
+    //     $(".cartIconOuter").attr("data-show", "1");
+    // });
 
     $("input[type='submit']").click(function(e){
         var orderProducts;
@@ -9,14 +9,9 @@ $(function(){
             orderProducts = $(this).find("select").val();
             console.log(orderProducts);
             if(orderProducts === "0"){
-                $(this).find("input[type='hidden']").val("");
+                $(this).find("option").val("");
             }
         });
-    })
+    });
 
-
-
-    // $("form").submit(function(){
-    //     var orderProducts = $("")
-    // })
 });
