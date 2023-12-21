@@ -5,22 +5,27 @@ require_once 'dbConnect.php';
 $connect = new connect();
 
 $cartContents = [];
-$orders = [];
 
 $error = [];
 
 $orderNum = $_POST['orderNum'];
 
-
+$orderIds = [];
 
 for ($i=0; $i < count($orderNum); $i++) { 
   if($orderNum[$i] !== ""){
-    $orderIds = explode(",", $orderNum[$i]);
+    $orderIds[] = explode(",", $orderNum[$i]);
   }
 }
-  var_dump($orderIds);
 
-foreach($orderIds as $orderId){
+if(empty($orderIds)){
+  array_push($error, "商品が選ばれていません。");
+}
+
+for($i=0; $i < count($orderIds); $i++){
+
+  $order = $orderIds[$i][0];
+  $orderId = $orderIds[$i][1];
 
     $recordSet = sprintf("SELECT * FROM goods WHERE id = '%s' ORDER BY id ASC", $orderId);
     $result = $connect->select($recordSet);
@@ -33,7 +38,6 @@ foreach($orderIds as $orderId){
     $productName = $val["name"];
     $sendDate = $val["send"];
     $productSize = $val["size"];
-    $productStock = $val["stock"];
 
     if($_POST['orders'][$key] !== "0"){
       $orderNum = $_POST['orders'][$key]; // 注文数
@@ -43,17 +47,11 @@ foreach($orderIds as $orderId){
               <td>{$productName}</td>
               <td>{$sendDate}</td>
               <td>{$productSize}</td>
-              <td>{$_POST['orders'][$key]}</td>
+              <td>{$order}</td>
               <input type="hidden" value='{$productId}'>
               <input type="hidden" value='{$orderNum}'>
             </tr>
   EOF;
-    } else {
-      $emptyCnt++;
-    }
-
-    if($emptyCnt === count($result)){
-      array_push($error, "商品が選ばれていません。");
     }
   }
 
@@ -65,11 +63,6 @@ if(!empty($error)){
   };
   exit();
 }
-
-//var_dump($_POST);
-//var_dump($cartContents);
-//var_dump($orders);
-//var_dump($error);
 
 ?>
 
