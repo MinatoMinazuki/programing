@@ -4,9 +4,42 @@ require_once 'dbConnect.php';
 
 $connect = new connect();
 
-$recordSet = sprintf("UPDATE goods SET `stock` = `stock` - `%s` WHERE `id` = :id",  1);
+date_default_timezone_set('Asia/Tokyo');
+$updateTime = date("Y-m-d H:i:s");
 
-$result = $connect->plural($recordSet, 1);
+for ($i=0; $i < count($_POST); $i++) { 
+  $orderId = $_POST['orderId'][$i];
+  $orderNum = $_POST['orderNum'][$i];
+
+  $recordSelect = sprintf("SELECT * FROM goods WHERE id = '%d' ORDER BY id ASC", $orderId);
+  $result = $connect->select($recordSelect);
+
+  foreach ($result as $key => $val) {
+    $productId = $val["id"];
+    $productName = $val["name"];
+    $sendDate = $val["send"];
+    $productSize = $val["size"];
+    $productStock = $val["stock"];
+
+    $updateStock = $productStock - $orderNum;
+
+    $tag.=<<<EOF
+      <tr>
+        <td>{$productName}</td>
+        <td>{$sendDate}</td>
+        <td>{$productSize}</td>
+        <td>{$orderNum}</td>
+      </tr>
+EOF;
+
+  }
+
+  $recordUpdate = sprintf("UPDATE goods SET `stock` = '%s', `update_date` = '%s' WHERE `id` = :id", $updateStock, $updateTime);
+
+  $connect->plural($recordUpdate, $orderId);
+}
+
+
 
 ?>
 
@@ -28,9 +61,9 @@ $result = $connect->plural($recordSet, 1);
         <th>商品名</th>
         <th>配送日時</th>
         <th>商品サイズ</th>
-        <th>在庫</th>
         <th>注文数</th>
       </tr>
+      <?php echo $tag; ?>
     </table>
     <a href="index.php">商品一覧へ戻る</a>
 </body>

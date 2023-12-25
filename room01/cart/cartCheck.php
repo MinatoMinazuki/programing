@@ -32,27 +32,21 @@ for($i=0; $i < count($orderIds); $i++){
 
   foreach ($result as $key => $val) {
 
-    $emptyCnt = 0;
-
     $productId = $val["id"];
     $productName = $val["name"];
     $sendDate = $val["send"];
     $productSize = $val["size"];
 
-    if($_POST['orders'][$key] !== "0"){
-      $orderNum = $_POST['orders'][$key]; // 注文数
-
-      $tag.=<<<EOF
-            <tr>
-              <td>{$productName}</td>
-              <td>{$sendDate}</td>
-              <td>{$productSize}</td>
-              <td>{$order}</td>
-              <input type="hidden" value='{$productId}'>
-              <input type="hidden" value='{$orderNum}'>
-            </tr>
-  EOF;
-    }
+    $tag.=<<<EOF
+          <tr>
+            <td>{$productName}</td>
+            <td>{$sendDate}</td>
+            <td>{$productSize}</td>
+            <td>{$order}</td>
+            <input type="hidden" name="orderId[]" value='{$productId}'>
+            <input type="hidden" name="orderNum[]" value='{$order}'>
+          </tr>
+EOF;
   }
 
 }
