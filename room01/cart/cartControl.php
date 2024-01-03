@@ -1,5 +1,13 @@
 <?php
 
+session_start();
+
+//ログインされていない場合は強制的にログインページにリダイレクト
+if(!isset($_SESSION['login'])){
+  header("Location: /room01/login/index.php");
+  exit();
+}
+
 require_once 'dbConnect.php';
 
 $connect = new connect();
@@ -16,34 +24,13 @@ foreach ($result as $key => $val) {
   $productSize = $val["size"];
   $productStock = $val["stock"];
 
-  $orderStock = intval($productStock);
-  $orderNum = ""; // 初期化
-
-  $stocks = intval($productStock);
-
-  if($stocks > 0 && $stocks < 5){
-    $stockText = "残りわずか";
-  } else if($stocks === 0){
-    $stockText = "品切れ";
-  } else {
-    $stockText = "在庫あり";
-  }
-
-  for ($i = 0; $i <= $orderStock; $i++) { 
-    if($i === 0){
-      $orderNum .= "<option value='{$i}' selected>選択</option>";
-    } else {
-      $orderNum .= "<option value='{$i},{$productId}'>{$i}</option>";
-    }
-  }
-
   $trTag .= <<<EOF
             <tr>
-                  <td>{$productName}</td>
-                  <td>{$sendDate}</td>
-                  <td>{$productSize}</td>
-                  <td>{$stockText}</td>
-                  <td><select name='orderNum[]'>{$orderNum}</select></td>
+                  <td class="edit string">{$productName}</td>
+                  <td class="edit string">{$sendDate}</td>
+                  <td class="edit string">{$productSize}</td>
+                  <td class="edit int">{$productStock}</td>
+                  <input type="hidden" name="{$productId}" value="">
             </tr>
 EOF;
 }
@@ -61,19 +48,18 @@ EOF;
   <title>商品一覧ページ</title>
 </head>
 <body>
-  <form method="post" action="cartCheck.php">
+  <form method="post" action="cartUpdate.php">
     <table>
       <tr>
         <th>商品名</th>
         <th>配送日時</th>
         <th>商品サイズ</th>
         <th>在庫</th>
-        <th>注文数</th>
       </tr>
       <?php echo $trTag; ?>
     </table>
     <input type="submit" value="注文を確認する">
   </form>
-  <a href="../login/index.php">ログイン</a>
+  <a href="../login/logout.php">ログアウト</a>
 </body>
 </html>

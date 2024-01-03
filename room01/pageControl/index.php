@@ -33,6 +33,9 @@ if(!isset($_SESSION['login'])){
                 <a href="../index.php">トップページへ</a>
             </li>
             <li>
+                <a href="/cart/cartControl.php">商品編集へ</a>
+            </li>
+            <li>
                 <a href="/login/signUp.php">ユーザー新規登録へ</a>
             </li>
             <li>

@@ -14,4 +14,24 @@ $(function(){
         });
     });
 
+    $(".edit").on("click", function(){
+        if(!$(this).hasClass("on")){
+            $(this).addClass("on");
+            var editText = $(this).text();
+            if($(this).hasClass("int")){
+                $(this).html("<input type='number' value='"+editText+"''/>");
+  
+            } else {
+                $(this).html("<input type='text' value='"+editText+"''/>");
+            };
+            $(".edit").find("input").focus().blur(function(){
+                var inputVal = $(this).val();
+                if(inputVal === ""){
+                    inputVal = this.defaultValue;
+                };
+            $(this).parent().removeClass('on').text(inputVal);
+            });
+        };
+    });
+
 });
