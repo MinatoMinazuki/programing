@@ -29,3 +29,43 @@
     text-decoration: none;
     display: block;
 }
+
+span[data-show="1"]{
+    display: inline;
+}
+
+input[data-show="1"]{
+    display: inline-block;
+}
+
+span[data-show="0"],
+input[data-show="0"]{
+    display: none;
+}
+
+.wrapper{
+    margin: 0 auto;
+    width: 90%;
+}
+
+.form{
+    padding: 20px 0;
+}
+
+.wrapperTable{
+    padding-bottom: 20px;
+}
+
+th{
+    color: #222;
+    padding: 0 10px;
+}
+
+td{
+    color: #333;
+   padding: 0 0 0 10px;
+}
+
+.wrapperBtn{
+    text-align: right;
+}

@@ -8,13 +8,13 @@ date_default_timezone_set('Asia/Tokyo');
 $updateTime = date("Y-m-d H:i:s");
 
 for ($i=0; $i < count($_POST); $i++) { 
-  $orderId = $_POST['orderId'][$i];
-  $orderNum = $_POST['orderNum'][$i];
+  $orderId = htmlspecialchars($_POST['orderId'][$i], ENT_QUOTES);
+  $orderNum = htmlspecialchars($_POST['orderNum'][$i], ENT_QUOTES);
 
   $recordSelect = sprintf("SELECT * FROM goods WHERE id = '%d' ORDER BY id ASC", $orderId);
-  $result = $connect->select($recordSelect);
+  $resultSelect = $connect->select($recordSelect);
 
-  foreach ($result as $key => $val) {
+  foreach ($resultSelect as $key => $val) {
     $productId = $val["id"];
     $productName = $val["name"];
     $sendDate = $val["send"];
@@ -22,6 +22,10 @@ for ($i=0; $i < count($_POST); $i++) {
     $productStock = $val["stock"];
 
     $updateStock = $productStock - $orderNum;
+
+    if($updateStock <= 0){
+      $updateStock = 0;
+    }
 
     $tag.=<<<EOF
       <tr>
@@ -34,9 +38,10 @@ EOF;
 
   }
 
-  $recordUpdate = sprintf("UPDATE goods SET `stock` = '%s', `update_date` = '%s' WHERE `id` = :id", $updateStock, $updateTime);
+  $recordUpdate = sprintf("UPDATE goods SET `stock` = '%s', `update_date` = '%s' WHERE `id` = '%s'", $updateStock, $updateTime, $productId);
 
-  $connect->plural($recordUpdate, $orderId);
+  $resultUpdate = $connect->plural($recordUpdate);
+  $resultUpdate->fetchAll(PDO::FETCH_ASSOC);
 }
 
 

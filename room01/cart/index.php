@@ -15,6 +15,7 @@ foreach ($result as $key => $val) {
   $sendDate = $val["send"];
   $productSize = $val["size"];
   $productStock = $val["stock"];
+  $productPrice = $val["price"];
 
   $orderStock = intval($productStock);
   $orderNum = ""; // 初期化
@@ -39,11 +40,12 @@ foreach ($result as $key => $val) {
 
   $trTag .= <<<EOF
             <tr>
-                  <td>{$productName}</td>
-                  <td>{$sendDate}</td>
-                  <td>{$productSize}</td>
-                  <td>{$stockText}</td>
-                  <td><select name='orderNum[]'>{$orderNum}</select></td>
+                  <td class="tdName">{$productName}</td>
+                  <td class="tdDate">{$sendDate}</td>
+                  <td class="tdSize">{$productSize}</td>
+                  <td class="tdStockText">{$stockText}</td>
+                  <td class="tdOrder"><select name='orderNum[]'>{$orderNum}</select></td>
+                  <td class="tdPrice">{$productPrice}円</td>
             </tr>
 EOF;
 }
@@ -61,7 +63,9 @@ EOF;
   <title>商品一覧ページ</title>
 </head>
 <body>
-  <form method="post" action="cartCheck.php">
+  <div class="wrapper">
+  <form class="form" method="post" action="cartCheck.php">
+    <div class="wrapperTable">
     <table>
       <tr>
         <th>商品名</th>
@@ -69,11 +73,18 @@ EOF;
         <th>商品サイズ</th>
         <th>在庫</th>
         <th>注文数</th>
+        <th>金額</th>
       </tr>
       <?php echo $trTag; ?>
     </table>
-    <input type="submit" value="注文を確認する">
+    </div>
+    <p class="wrapperBtn">
+      <input type="submit" class="submitBtn" value="注文を確認する">
+    </p>
   </form>
+</div>
+<div class="footer">
   <a href="../login/index.php">ログイン</a>
+</div>
 </body>
 </html>

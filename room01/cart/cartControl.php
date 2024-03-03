@@ -14,23 +14,26 @@ $connect = new connect();
 
 $recordSet = sprintf("SELECT * FROM goods ORDER BY id ASC");
 
-$result = $connect->select($recordSet);
+$resultSelect = $connect->select($recordSet);
 
-foreach ($result as $key => $val) {
+foreach ($resultSelect as $key => $val) {
 
   $productId = $val["id"];
   $productName = $val["name"];
   $sendDate = $val["send"];
   $productSize = $val["size"];
   $productStock = $val["stock"];
+  $productPrice = $val["price"];
 
   $trTag .= <<<EOF
             <tr>
-                  <td class="edit string">{$productName}</td>
-                  <td class="edit string">{$sendDate}</td>
-                  <td class="edit string">{$productSize}</td>
-                  <td class="edit int">{$productStock}</td>
-                  <input type="hidden" name="{$productId}" value="">
+                  <td class="edit"><span data-show="1">{$productName}</span><input type="text" name="productName[]" value="{$productName}" data-show="0"></td>
+                  <td class="edit"><span data-show="1">{$sendDate}</span><input type="text" name="sendDate[]" value="{$sendDate}" data-show="0"></td>
+                  <td class="edit"><span data-show="1">{$productSize}</span><input type="text" name="productSize[]" value="{$productSize}" data-show="0"></td>
+                  <td class="edit"><span data-show="1">{$productStock}</span><input type="number" name="productStock[]" value="{$productStock}" data-show="0"></td>
+                  <input type="hidden" name="productId[]" value="{$productId}">
+                  <td class="edit"><span data-show="1">{$productPrice}</span><input type="number" name="productPrice[]" value="{$productPrice}" data-show="0">円</td>
+                  <input type="hidden" name="productId[]" value="{$productId}">
             </tr>
 EOF;
 }
@@ -48,7 +51,9 @@ EOF;
   <title>商品一覧ページ</title>
 </head>
 <body>
-  <form method="post" action="cartUpdate.php">
+  <div class="wrapper">
+  <form class="form" method="post" action="cartControl.php">
+    <div class="wrapperTable">
     <table>
       <tr>
         <th>商品名</th>
@@ -58,8 +63,9 @@ EOF;
       </tr>
       <?php echo $trTag; ?>
     </table>
-    <input type="submit" value="注文を確認する">
+    </div>
+    <input type="submit" value="内容を更新する">
   </form>
-  <a href="../login/logout.php">ログアウト</a>
+</div>
 </body>
 </html>
