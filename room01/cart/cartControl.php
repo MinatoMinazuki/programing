@@ -47,6 +47,7 @@ EOF;
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="../js/cartPage.js?p=<?php echo time(); ?>"></script>
+  <link rel="stylesheet" href="../css/reset.css?p=<?php echo time(); ?>">
   <link rel="stylesheet" href="../css/cartPage.css?p=<?php echo time(); ?>">
   <title>商品一覧ページ</title>
 </head>

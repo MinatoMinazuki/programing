@@ -45,11 +45,11 @@ for($i=0; $i < count($orderIds); $i++){
 
     $tag.=<<<EOF
           <tr>
-            <td>{$productName}</td>
-            <td>{$sendDate}</td>
-            <td>{$productSize}</td>
-            <td>{$order}</td>
-            <td>{$subtotal}円</td>
+            <td class="tdName">{$productName}</td>
+            <td class="tdDate">{$sendDate}</td>
+            <td class="tdSize">{$productSize}</td>
+            <td class="tdOrder">{$order}</td>
+            <td class="tdSubtotal">{$subtotal}円</td>
             <input type="hidden" name="orderId[]" value='{$productId}'>
             <input type="hidden" name="orderNum[]" value='{$order}'>
           </tr>
@@ -60,12 +60,6 @@ EOF;
 
 $totalAmount = array_sum($total);
 
-$tag .= <<<EOF
-          <tr>
-            <th>合計</th>
-            <td>{$totalAmount}円</td>
-          </tr>
-EOF;
 
 if(!empty($error)){
   for($i=0; $i <= count($error); $i++){
@@ -83,23 +77,35 @@ if(!empty($error)){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="../js/cartPage.js?p=<?php echo time(); ?>"></script>
+  <link rel="stylesheet" href="../css/reset.css?p=<?php echo time(); ?>">
   <link rel="stylesheet" href="../css/cartPage.css?p=<?php echo time(); ?>">
   <title>注文確認</title>
 </head>
 <body>
-    <form method="post" action="cartConfirm.php">
-    <table>
-      <tr>
-        <th>商品名</th>
-        <th>配送日時</th>
-        <th>商品サイズ</th>
-        <th>注文数</th>
-        <th>小計</th>
-        <!-- <th>合計</th> -->
-      </tr>
-      <?php echo $tag; ?>
-    </table>
-    <input type="submit" value="注文を確定する">
-  </form>
+  <div class="wrapper">
+    <h2>注文確認</h2>
+    <form class="form" method="post" action="cartConfirm.php">
+      <div class="wrapperTable">
+        <table>
+          <tr>
+            <th>商品名</th>
+            <th>配送日時</th>
+            <th>商品サイズ</th>
+            <th>注文数</th>
+            <th>小計</th>
+          </tr>
+          <?php echo $tag; ?>
+        </table>
+        <p class="wrapperTotalAmount">
+          <span class="totalAmount">合計</span>
+          <span class="total"><?= $totalAmount; ?>円</span>
+          <input type="hidden" name="totalAmount" value="<?= $totalAmount; ?>">
+        </p>
+      </div>
+      <p class="wrapperBtn">
+        <input type="submit" value="注文を確定する">
+      </p>
+    </form>
+  </div>
 </body>
 </html>

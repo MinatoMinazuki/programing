@@ -1,7 +1,4 @@
 *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
     font-family: "Noto Sans JP";
 }
 
@@ -63,9 +60,51 @@ th{
 
 td{
     color: #333;
-   padding: 0 0 0 10px;
+    padding: 0 0 0 10px;
+}
+
+.tdPrice{
+    text-align: right;
 }
 
 .wrapperBtn{
     text-align: right;
 }
+
+.wrapperTotalAmount{
+    margin: 20px 0 0;
+    text-align: right;
+}
+
+.totalAmount{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.total{
+    color: red;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.wrapperOrderDetails{
+    padding: 20px 0;
+}
+
+.orderDetailsTitle{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
