@@ -53,7 +53,7 @@ EOF;
 </head>
 <body>
   <div class="wrapper">
-  <form class="form" method="post" action="cartControl.php">
+  <form class="form" method="post" action="cartUpdate.php">
     <div class="wrapperTable">
     <table>
       <tr>
