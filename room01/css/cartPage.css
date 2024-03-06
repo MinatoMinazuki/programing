@@ -1,0 +1,110 @@
+*{
+    font-family: "Noto Sans JP";
+}
+
+.cartIconOuter[data-show="0"]{
+    display: none;
+}
+
+.cartIconOuter[data-show="1"]{
+    display: block;
+}
+
+.cartIconOuter{
+    position: sticky;
+}
+
+.cartIcon{
+    position: relative;
+}
+
+.intoCartNumber{
+    position: absolute;
+    left: 45px;
+    top: -45px;
+    border-radius: 100%;
+    text-decoration: none;
+    display: block;
+}
+
+span[data-show="1"]{
+    display: inline;
+}
+
+input[data-show="1"]{
+    display: inline-block;
+}
+
+span[data-show="0"],
+input[data-show="0"]{
+    display: none;
+}
+
+.wrapper{
+    margin: 0 auto;
+    width: 90%;
+}
+
+.form{
+    padding: 20px 0;
+}
+
+.wrapperTable{
+    padding-bottom: 20px;
+}
+
+th{
+    color: #222;
+    padding: 0 10px;
+}
+
+td{
+    color: #333;
+    padding: 0 0 0 10px;
+}
+
+.tdPrice{
+    text-align: right;
+}
+
+.wrapperBtn{
+    text-align: right;
+}
+
+.wrapperTotalAmount{
+    margin: 20px 0 0;
+    text-align: right;
+}
+
+.totalAmount{
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.total{
+    color: red;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.wrapperOrderDetails{
+    padding: 20px 0;
+}
+
+.orderDetailsTitle{
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
