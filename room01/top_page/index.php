@@ -54,7 +54,7 @@ $db_pass = "root";
         <span class="menuList">
             <a href="blog_list.php" class="home menu">BLOG</a>
             <a href="" class="about menu">ABOUT</a>
-            <a href="" class="items menu">ITEMS</a>
+            <a href="/cart/" class="items menu">ITEMS</a>
             <a href="" class="gallery menu">GALLERY</a>
             <a href="" class="news menu">NEWS</a>
         </span>

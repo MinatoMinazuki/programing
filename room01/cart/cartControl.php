@@ -27,12 +27,12 @@ foreach ($resultSelect as $key => $val) {
 
   $trTag .= <<<EOF
             <tr>
-                  <td class="edit"><span data-show="1">{$productName}</span><input type="text" name="productName[]" value="{$productName}" data-show="0"></td>
-                  <td class="edit"><span data-show="1">{$sendDate}</span><input type="text" name="sendDate[]" value="{$sendDate}" data-show="0"></td>
-                  <td class="edit"><span data-show="1">{$productSize}</span><input type="text" name="productSize[]" value="{$productSize}" data-show="0"></td>
-                  <td class="edit"><span data-show="1">{$productStock}</span><input type="number" name="productStock[]" value="{$productStock}" data-show="0"></td>
+                  <td class="edit tdName"><span data-show="1">{$productName}</span><input type="text" name="productName[]" value="{$productName}" data-show="0"></td>
+                  <td class="edit tdDate"><span data-show="1">{$sendDate}</span><input type="text" name="sendDate[]" value="{$sendDate}" data-show="0"></td>
+                  <td class="edit tdSize"><span data-show="1">{$productSize}</span><input type="text" name="productSize[]" value="{$productSize}" data-show="0"></td>
+                  <td class="edit tdStock"><span data-show="1">{$productStock}</span><input type="number" name="productStock[]" value="{$productStock}" data-show="0"></td>
                   <input type="hidden" name="productId[]" value="{$productId}">
-                  <td class="edit"><span data-show="1">{$productPrice}</span><input type="number" name="productPrice[]" value="{$productPrice}" data-show="0">円</td>
+                  <td class="edit tdPrice"><span data-show="1">{$productPrice}</span><input type="number" name="productPrice[]" value="{$productPrice}" data-show="0">円</td>
                   <input type="hidden" name="productId[]" value="{$productId}">
             </tr>
 EOF;
@@ -61,6 +61,7 @@ EOF;
         <th>配送日時</th>
         <th>商品サイズ</th>
         <th>在庫</th>
+        <th>金額</th>
       </tr>
       <?php echo $trTag; ?>
     </table>

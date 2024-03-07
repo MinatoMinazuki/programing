@@ -39,10 +39,9 @@ EOF;
 
   }
 
-  $recordUpdate = sprintf("UPDATE goods SET `stock` = '%s', `update_date` = '%s' WHERE `id` = '%s'", $updateStock, $updateTime, $productId);
+  $recordUpdate = sprintf("UPDATE goods SET `stock` = '%s', `update_date` = '%s' WHERE `id` = :id", $updateStock, $updateTime);
 
-  $resultUpdate = $connect->plural($recordUpdate);
-  $resultUpdate->fetchAll(PDO::FETCH_ASSOC);
+  $resultUpdate = $connect->plural($recordUpdate, $productId);
 }
 
 
