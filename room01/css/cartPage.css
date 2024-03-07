@@ -41,7 +41,7 @@ input[data-show="0"]{
 }
 
 .wrapper{
-    margin: 0 auto;
+    margin: 10px auto;
     width: 90%;
 }
 
@@ -50,7 +50,7 @@ input[data-show="0"]{
 }
 
 .wrapperTable{
-    padding-bottom: 20px;
+    padding: 20px 0;
 }
 
 th{
