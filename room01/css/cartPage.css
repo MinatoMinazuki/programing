@@ -42,25 +42,35 @@ input[data-show="0"]{
 
 .wrapper{
     margin: 10px auto;
-    width: 90%;
-}
-
-.form{
-    padding: 20px 0;
+    width: 600px;
 }
 
 .wrapperTable{
     padding: 20px 0;
 }
 
+table{
+    border-collapse: collapse;
+    width: 600px;
+}
+
+tr{
+    border: 1px solid #ccc;
+}
+
 th{
-    color: #222;
+    color: #393939;
     padding: 0 10px;
+    background-color: rgba(65, 170, 216, 0.6);
 }
 
 td{
     color: #333;
-    padding: 0 0 0 10px;
+    padding: 10px;
+}
+
+.tdSize{
+    text-align: center;
 }
 
 .tdPrice{
@@ -97,7 +107,42 @@ td{
     padding-bottom: 10px;
 }
 
+.shoppingCart{
+    position: fixed;
+    bottom: -50px;
+    left: calc(50% - 24px);
+    cursor: pointer;
+    transition: 0.3s;
+}
 
+body[data-cart-show="1"] .shoppingCart{
+    bottom: 0;
+}
+
+.insideCartOrder{
+    width: 20px;
+    height: 20px;
+    top: 0;
+    right: 0;
+    color: #fff;
+    background-color: #ff2222;
+    border-radius: 100%;
+    position: absolute;
+    text-align: center;
+    line-height: 1.4;
+    font-size: 14px;
+    display: none;
+}
+
+body[data-cart-show="1"] .insideCartOrder{
+    display: block;
+}
+
+.footer{
+    color: #222;
+    text-align: right;
+    padding: 0 10%;
+}
 
 
 

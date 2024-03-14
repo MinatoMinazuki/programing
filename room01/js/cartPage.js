@@ -33,4 +33,30 @@ $(function(){
         };
     });
 
+    $(".tdOrder select").change(function(){
+        var self = $(this);
+        var orderNum = 0;
+
+        $(".tdOrder").each(function(){
+
+            var slectOrder = $(this).find("select").val();
+
+            orderNum = Number(orderNum) + Number(slectOrder);
+
+        });
+
+        if( orderNum === 0 ){
+            $(".insideCartOrder").text("0");
+            $("body").attr("data-cart-show", "0");
+        } else {
+            $(".insideCartOrder").text(orderNum);
+            $("body").attr("data-cart-show", "1");
+        }
+
+    });
+
+    $(".shoppingCart").click(function(){
+        $(".submitBtn").click();
+    })
+
 });
