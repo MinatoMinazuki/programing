@@ -9,15 +9,9 @@ $cartContents = [];
 $error = [];
 
 $orderNum = $_POST['orderNum'];
+$orderIds = $_POST['productId'];
 
-$orderIds = [];
 $total = [];
-
-for ($i=0; $i < count($orderNum); $i++) { 
-  if($orderNum[$i] !== ""){
-    $orderIds[] = explode(",", $orderNum[$i]);
-  }
-}
 
 if(empty($orderIds)){
   array_push($error, "商品が選ばれていません。");
@@ -25,9 +19,12 @@ if(empty($orderIds)){
 
 for($i=0; $i < count($orderIds); $i++){
 
-  $order = $orderIds[$i][0];
-  $orderId = $orderIds[$i][1];
+  $order = $orderNum[$i];
+  $orderId = $orderIds[$i];
 
+  if( empty($order) ){
+    continue;
+  }
 
     $recordSet = sprintf("SELECT * FROM goods WHERE id = '%s' ORDER BY id ASC", $orderId);
     $result = $connect->select($recordSet);

@@ -90,7 +90,7 @@ EOF;
   <div class="wrapper">
   <?php if(!$trTag){?>
     <p>何も更新されていません</p>
-  <?php } else {?>
+  <?php } else { ?>
     <h2>下記内容で更新しました</h2>
     <div class="wrapperTable">
     <table>

@@ -30,10 +30,10 @@ for ($i=0; $i < count($_POST); $i++) {
 
     $tag.=<<<EOF
       <tr>
-        <td>{$productName}</td>
-        <td>{$sendDate}</td>
-        <td>{$productSize}</td>
-        <td>{$orderNum}</td>
+        <td class="tdName">{$productName}</td>
+        <td class="tdDate">{$sendDate}</td>
+        <td class="tdSize">{$productSize}</td>
+        <td class="tdNum">{$orderNum}</td>
       </tr>
 EOF;
 
@@ -61,9 +61,9 @@ EOF;
 </head>
 <body>
   <div class="wrapper">
-  <h2>注文が確定されました</h2>
-  <div class="wrapperOrderDetails">
-    <p class="orderDetailsTitle">注文内容</p>
+    <h2>注文が確定されました</h2>
+    <div class="wrapperOrderDetails">
+      <p class="orderDetailsTitle">注文内容</p>
       <div class="wrapperTable">
         <table>
           <tr>
@@ -81,7 +81,7 @@ EOF;
         </p>
       </div>
       <a class="returnBtn" href="index.php">商品一覧へ戻る</a>
-  </div>
+    </div>
   </div>
 </body>
 </html>

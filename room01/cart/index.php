@@ -34,7 +34,7 @@ foreach ($result as $key => $val) {
     if($i === 0){
       $orderNum .= "<option value='{$i}' selected>選択</option>";
     } else {
-      $orderNum .= "<option value='{$i},{$productId}'>{$i}</option>";
+      $orderNum .= "<option value='{$i}'>{$i}</option>";
     }
   }
 
@@ -46,6 +46,7 @@ foreach ($result as $key => $val) {
                   <td class="tdStockText">{$stockText}</td>
                   <td class="tdOrder"><select name='orderNum[]'>{$orderNum}</select></td>
                   <td class="tdPrice">{$productPrice}円</td>
+                  <input type='hidden' name='productId[]' value='{$productId}'>
             </tr>
 EOF;
 }
@@ -63,26 +64,28 @@ EOF;
   <link rel="stylesheet" href="../css/cartPage.css?p=<?php echo time(); ?>">
   <title>商品一覧ページ</title>
 </head>
-<body>
+<body data-cart-show="0">
   <div class="wrapper">
-  <form class="form" method="post" action="cartCheck.php">
-    <div class="wrapperTable">
-    <table>
-      <tr>
-        <th>商品名</th>
-        <th>配送日時</th>
-        <th>商品サイズ</th>
-        <th>在庫</th>
-        <th>注文数</th>
-        <th>金額</th>
-      </tr>
-      <?php echo $trTag; ?>
-    </table>
-    </div>
-    <p class="wrapperBtn">
-      <input type="submit" class="submitBtn" value="注文を確認する">
-    </p>
-  </form>
+    <h2>商品一覧</h2>
+    <form class="form" method="post" action="cartCheck.php">
+      <div class="wrapperTable">
+      <table>
+        <tr>
+          <th>商品名</th>
+          <th>配送日時</th>
+          <th>商品サイズ</th>
+          <th>在庫</th>
+          <th>注文数</th>
+          <th>金額</th>
+        </tr>
+        <?php echo $trTag; ?>
+      </table>
+      </div>
+      <p class="wrapperBtn">
+        <input type="submit" class="submitBtn" value="注文を確認する">
+      </p>
+    </form>
+    <div class="shoppingCart" title="注文確認に進む"><div class="insideCartOrder">0</div><img src="../img/shopping-cart.png"></div>
 </div>
 <div class="footer">
   <a href="../login/index.php">ログイン</a>

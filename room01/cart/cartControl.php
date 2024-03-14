@@ -53,6 +53,7 @@ EOF;
 </head>
 <body>
   <div class="wrapper">
+    <h2>在庫管理</h2>
   <form class="form" method="post" action="cartUpdate.php">
     <div class="wrapperTable">
     <table>
