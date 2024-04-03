@@ -6,6 +6,7 @@ $(function(){
             console.log(orderProducts);
             if(orderProducts === "0"){
                 $(this).find("option").val("");
+                $(this).find("input").val("");
             }
         });
     });
@@ -57,6 +58,18 @@ $(function(){
 
     $(".shoppingCart").click(function(){
         $(".submitBtn").click();
+    })
+
+    $(".userInfoTitleWrapper").click(function(){
+
+        var isUserInfoSow = $(this).closest(".userInfoWrapper").attr("data-userinfo-show");
+
+        if(isUserInfoSow === "1"){
+            $(this).closest(".userInfoWrapper").attr("data-userinfo-show", "0");
+        } else {
+            $(this).closest(".userInfoWrapper").attr("data-userinfo-show", "1");
+        }
+
     })
 
 });

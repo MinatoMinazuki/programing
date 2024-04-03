@@ -80,6 +80,18 @@ EOF;
         </tr>
         <?php echo $trTag; ?>
       </table>
+        <div class="userInfoWrapper" data-userinfo-show="1">
+          <p class="userInfoTitleWrapper"><span class="userInfoTitle">お客様情報入力欄<span class="infoTriangle">▼</span></span></p>
+          <p class="userInfoOuter">
+            <span class="userInfo userName">お名前：</span><input type="text" name="userName">
+          </p>
+          <p class="userInfoOuter">
+            <span class="userInfo userAdress">住所：</span><input type="address" name="userAdress">
+          </p>
+          <p class="userInfoOuter">
+            <span class="userInfo userMailadress">メールアドレス：</span><input type="email" name="mailadrres"
+            ></p>
+        </div>
       </div>
       <p class="wrapperBtn">
         <input type="submit" class="submitBtn" value="注文を確認する">

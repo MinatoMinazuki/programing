@@ -45,6 +45,25 @@ EOF;
 }
 
 
+// メール送信
+mb_language("Japanese");
+mb_internal_encoding("UTF-8");
+
+$to = htmlspecialchars($_POST["mailadrres"], ENT_QUOTES);
+$userName = htmlspecialchars($_POST["userName"], ENT_QUOTES);
+$userAdress = htmlspecialchars($_POST["userAdress"], ENT_QUOTES);
+
+$subject = "ご注文ありがとうございます。";
+$message = $userName."様。\nこの度は商品をご注文をいただき、誠にありがとうございます。\nご注文された商品は".$sendDate."にお届けさせていただきます。";
+$header = "From:from@example.com";
+
+$res = mb_send_mail($to, $subject, $message, $header);
+
+// if(!$res){
+//   echo "メール送信に失敗しました。もう一度最初からお願いいたします。";
+//   echo "<a href='/cart/index.php'>商品選択へ戻る</a>";
+//   exit();
+// }
 
 ?>
 
@@ -79,6 +98,13 @@ EOF;
           <span class="total"><?= $totalAmount; ?>円</span>
           <input type="hidden" name="totalAmount" value="<?= $totalAmount; ?>">
         </p>
+      </div>
+      <div>
+        <h2>送信メール</h2>
+        <p><?= $to; ?></p>
+        <p><?= $subject; ?></p>
+        <p><?= $message; ?></p>
+        <p><?= $header ?></p>
       </div>
       <a class="returnBtn" href="index.php">商品一覧へ戻る</a>
     </div>

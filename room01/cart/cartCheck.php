@@ -8,21 +8,31 @@ $cartContents = [];
 
 $error = [];
 
+$to = htmlspecialchars($_POST["mailadrres"], ENT_QUOTES);
+$userName = htmlspecialchars($_POST["userName"], ENT_QUOTES);
+$userAdress = htmlspecialchars($_POST["userAdress"], ENT_QUOTES);
+
 $orderNum = $_POST['orderNum'];
 $orderIds = $_POST['productId'];
 
 $total = [];
 
-if(empty($orderIds)){
-  array_push($error, "商品が選ばれていません。");
+if($orderIds === ""){
 }
 
 for($i=0; $i < count($orderIds); $i++){
 
   $order = $orderNum[$i];
   $orderId = $orderIds[$i];
+  $noItemNum;
 
   if( empty($order) ){
+    $noItemNum++;
+
+    if($noItemNum === count($orderIds)){
+      array_push($error, "商品が選ばれていません。");
+    }
+
     continue;
   }
 
@@ -56,7 +66,6 @@ EOF;
 }
 
 $totalAmount = array_sum($total);
-
 
 if(!empty($error)){
   for($i=0; $i <= count($error); $i++){
@@ -99,8 +108,23 @@ if(!empty($error)){
           <input type="hidden" name="totalAmount" value="<?= $totalAmount; ?>">
         </p>
       </div>
-      <p class="wrapperBtn">
-        <input type="submit" value="注文を確定する">
+      <div class="userInfoWrapper check">
+          <p class="userInfoTitleWrapper"><span class="userInfoTitle">お客様情報入力欄</span></p>
+          <p class="userInfoOuter">
+            <span class="userInfo userName">お名前：<?= $userName ?></span><input type="hidden" name="userName" value="<?= $userName; ?>">
+          </p>
+          <p class="userInfoOuter">
+            <span class="userInfo userAdress">住所：<?= $userAdress; ?></span><input type="hidden" name="userAdress" value="<?= $userAdress; ?>">
+          </p>
+          <p class="userInfoOuter">
+            <span class="userInfo userMailadress">メールアドレス：<?= $to; ?></span><input type="hidden" name="mailadrres" value="<?= $to; ?>">
+          </p>
+      </div>
+      <p class="wrapperBtn wrapperbackBtn">
+        <a href="javascript:history.back();" class="backBtn">商品選択へ戻る</a>
+      </p>
+      <p class="wrapperBtn wrapperSubmitBtn">
+        <input type="submit" class="submitBtn" value="注文を確定する">
       </p>
     </form>
   </div>
