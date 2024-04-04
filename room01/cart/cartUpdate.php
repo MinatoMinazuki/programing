@@ -8,12 +8,12 @@ date_default_timezone_set('Asia/Tokyo');
 $updateTime = date("Y-m-d H:i:s");
 
 for ($i=0; $i < count($_POST); $i++) { 
-  $updateIdArray[] = htmlspecialchars($_POST["productId"][$i], ENT_QUOTES);
-  $updateNameArray[] = htmlspecialchars($_POST["productName"][$i], ENT_QUOTES);
-  $updateDateArray[] = htmlspecialchars($_POST["sendDate"][$i], ENT_QUOTES);
-  $updateSizeArray[] = htmlspecialchars($_POST["productSize"][$i], ENT_QUOTES);
-  $updateStockArray[] = htmlspecialchars($_POST["productStock"][$i], ENT_QUOTES);
-  $updatePriceArray[] = htmlspecialchars($_POST["productPrice"][$i], ENT_QUOTES);
+  if( !empty($_POST["productId"][$i]) ) $updateIdArray[] = htmlspecialchars($_POST["productId"][$i], ENT_QUOTES);
+  if( !empty($_POST["productName"][$i]) ) $updateNameArray[] = htmlspecialchars($_POST["productName"][$i], ENT_QUOTES);
+  if( !empty($_POST["sendDate"][$i]) ) $updateDateArray[] = htmlspecialchars($_POST["sendDate"][$i], ENT_QUOTES);
+  if( !empty($_POST["productSize"][$i]) ) $updateSizeArray[] = htmlspecialchars($_POST["productSize"][$i], ENT_QUOTES);
+  if( !empty($_POST["productStock"][$i]) ) $updateStockArray[] = htmlspecialchars($_POST["productStock"][$i], ENT_QUOTES);
+  if( !empty($_POST["productPrice"][$i]) ) $updatePriceArray[] = htmlspecialchars($_POST["productPrice"][$i], ENT_QUOTES);
 }
 
 $recordSet = sprintf("SELECT * FROM goods ORDER BY id ASC");

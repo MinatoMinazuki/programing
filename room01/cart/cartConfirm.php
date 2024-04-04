@@ -8,9 +8,13 @@ date_default_timezone_set('Asia/Tokyo');
 $updateTime = date("Y-m-d H:i:s");
 $totalAmount = htmlspecialchars($_POST['totalAmount'], ENT_QUOTES);
 
-for ($i=0; $i < count($_POST); $i++) { 
-  $orderId = htmlspecialchars($_POST['orderId'][$i], ENT_QUOTES);
-  $orderNum = htmlspecialchars($_POST['orderNum'][$i], ENT_QUOTES);
+for ($i=0; $i < count($_POST); $i++) {
+  if( !empty($_POST['orderId'][$i]) ){
+    $orderId = htmlspecialchars($_POST['orderId'][$i], ENT_QUOTES);
+    $orderNum = htmlspecialchars($_POST['orderNum'][$i], ENT_QUOTES);
+  } else {
+    continue;
+  }
 
   $recordSelect = sprintf("SELECT * FROM goods WHERE id = '%d' ORDER BY id ASC", $orderId);
   $resultSelect = $connect->select($recordSelect);

@@ -16,6 +16,7 @@ $orderNum = $_POST['orderNum'];
 $orderIds = $_POST['productId'];
 
 $total = [];
+$tag = "";
 
 if($orderIds === ""){
 }
@@ -24,7 +25,7 @@ for($i=0; $i < count($orderIds); $i++){
 
   $order = $orderNum[$i];
   $orderId = $orderIds[$i];
-  $noItemNum;
+  $noItemNum = 0;
 
   if( empty($order) ){
     $noItemNum++;

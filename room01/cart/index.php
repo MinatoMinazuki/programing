@@ -8,6 +8,8 @@ $recordSet = sprintf("SELECT * FROM goods ORDER BY id ASC");
 
 $result = $connect->select($recordSet);
 
+$trTag;
+
 foreach ($result as $key => $val) {
 
   $productId = $val["id"];
