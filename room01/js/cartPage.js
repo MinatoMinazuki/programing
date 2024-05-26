@@ -70,6 +70,53 @@ $(function(){
             $(this).closest(".userInfoWrapper").attr("data-userinfo-show", "1");
         }
 
+    });
+
+    $(".userInfoOuter").find("input").blur(function(){
+
+        var self = this;
+
+        var inputValueLength = $(this).val().length;
+
+        validator(inputValueLength, self);
+
     })
 
+    function validator(term, value){
+        
+    }
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
