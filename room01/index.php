@@ -12,7 +12,7 @@ $errors = [];
 $db_name = "sousaku";
 $db_host = "localhost";
 $db_user = "root";
-$db_pass = "root";
+$db_pass = "";
 
 // if(isset($_SERVER['PHP_AUTH_USER']) && ($_SERVER['PHP_AUTH_USER'] === $basic_user && $_SERVER['PHP_AUTH_PW'] === $basic_pass){
 
