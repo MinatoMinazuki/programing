@@ -29,13 +29,33 @@ $youbi = date("w", $timestamp);
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <link rel="stylesheet" href="">
+    <title>カレンダー</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        a {
+            text-decoration: none;
+        }
+        th {
+            height: 30px;
+            text-align: center;
+        }
+        td {
+            height: 100px;
+        }
+        .today {
+            background: orange !important;
+        }
+        th:nth-of-type(1), td:nth-of-type(1) {
+            color: red;
+        }
+        th:nth-of-type(7), td:nth-of-type(7) {
+            color: blue;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h3 class="mb-4"></h3>
-        <table border="1">
+    <div class="container mt-5">
+        <table class="table table-bordered">
             <thead class="table_calendar-head">
                 <tr>
                     <th><a href="?ym=<?= $prevMon ?>">&lt;</a></th>
