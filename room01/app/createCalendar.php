@@ -3,6 +3,7 @@
 $weekJp = ["日" ,"月", "火", "水", "木", "金", "土"];
 
 $ym = !empty($_GET['ym']) ? $_GET['ym'] : date("Y-m");
+$d = !empty($_GET['d']) ? $_GET['d'] : "";
 
 $timestamp = strtotime( $ym."-01" );
 if( $timestamp === false ){
@@ -20,6 +21,10 @@ $dayCount = date("t", $timestamp);
 
 $youbi = date("w", $timestamp);
 
+$events = [];
+if( file_exists( __DIR__."/data/events.json" ) ){
+    $events = json_decode( file_get_contents("./data/events.json"), true );
+}
 
 
 ?>
@@ -51,6 +56,9 @@ $youbi = date("w", $timestamp);
         th:nth-of-type(7), td:nth-of-type(7) {
             color: blue;
         }
+        .hasEvent {
+            background: lightblue;
+        }
     </style>
 </head>
 <body>
@@ -63,13 +71,7 @@ $youbi = date("w", $timestamp);
                     <th><a href="?ym=<?= $nextMon ?>">&gt;</a></th>
                 </tr>
                 <tr>
-                    <th>日</th>
-                    <th>月</th>
-                    <th>火</th>
-                    <th>水</th>
-                    <th>木</th>
-                    <th>金</th>
-                    <th>土</th>
+                    <?php foreach ($weekJp as $day) echo "<th>{$day}</th>"; ?>
                 </tr>
             </thead>
             <tbody class="table_calendar-body">
@@ -80,7 +82,14 @@ $youbi = date("w", $timestamp);
                     }
 
                     for($day=1; $day <= $dayCount; $day++){
-                        echo "<td>{$day}</td>";
+                        $date = $ym."-".$day;
+                        $todayClass = $date === $today ? "today" : "";
+                        $eventList = isset($events[$date]) ? implode("<br>", $events[$date]) : "";
+
+                        echo "<td class ='{$todayClass}'>
+                                <a href='?ym={$ym}&d={$day}'>{$day}</a><br>
+                                <span class='hasEvent'>{$eventList}</span>
+                            </td>";
 
                         if( ($day + $youbi) % 7 === 0 ){
                             echo "</tr><tr>";
@@ -96,5 +105,15 @@ $youbi = date("w", $timestamp);
             </tbody>
         </table>
     </div>
+    <?php if( !empty($d) ): ?>
+    <div>
+        <h3>予定を追加: <?= $calDate.$d; ?>日</h3>
+        <form action="addEvent.php" method="post">
+            <input type="hidden" name="date" value="<?= $ym."-".$d; ?>">
+            <input type="text" name="event" required>
+            <button type="submit">追加</button>
+        </form>
+    </div>
+    <?php endif; ?>
 </body>
 </html>
