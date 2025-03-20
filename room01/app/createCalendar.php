@@ -1,5 +1,13 @@
 <?php
 
+date_default_timezone_set('Asia/Tokyo');
+
+require_once __DIR__."/class/DBC.php";
+
+$dbc = new DBC;
+
+$userId = "1";
+
 $weekJp = ["日" ,"月", "火", "水", "木", "金", "土"];
 
 $ym = !empty($_GET['ym']) ? $_GET['ym'] : date("Y-m");
@@ -18,12 +26,41 @@ $prevMon = date("Y-m", strtotime("-1 month", $timestamp));
 $nextMon = date("Y-m", strtotime("+1 month", $timestamp));
 
 $dayCount = date("t", $timestamp);
+$firstDay = $ym."-01";
+$lastDay = $ym."-".$dayCount;
 
 $youbi = date("w", $timestamp);
 
-$events = [];
-if( file_exists( __DIR__."/data/events.json" ) ){
-    $events = json_decode( file_get_contents("./data/events.json"), true );
+$currentTime = date("H:00");
+$initialEndTime = date("H:00", strtotime("+1 hour"));
+
+// $events = [];
+// if( file_exists( __DIR__."/data/events.json" ) ){
+//     $events = json_decode( file_get_contents("./data/events.json"), true );
+// }
+
+$eventList = [];
+
+$sql = sprintf("
+        SELECT *
+        FROM `schedule_master`
+        WHERE `del_flag` = '0'
+        AND   `event_date` >= '%s'
+        AND   `event_date` <= '%s'
+        ORDER BY
+        `event_date`,
+        `event_start_time`
+        ",
+        $firstDay,
+        $lastDay
+    );
+
+$res = $dbc->Dsql($sql);
+
+if( !empty($res) ){
+    foreach ($res as $event) {
+        $eventList[$event["event_date"]][] = $event;
+    }
 }
 
 
@@ -84,12 +121,27 @@ if( file_exists( __DIR__."/data/events.json" ) ){
                     for($day=1; $day <= $dayCount; $day++){
                         $date = $ym."-".$day;
                         $todayClass = $date === $today ? "today" : "";
-                        $eventList = isset($events[$date]) ? implode("<br>", $events[$date]) : "";
 
                         echo "<td class ='{$todayClass}'>
-                                <a href='?ym={$ym}&d={$day}'>{$day}</a><br>
-                                <span class='hasEvent'>{$eventList}</span>
-                            </td>";
+                              <a href='?ym={$ym}&d={$day}'>{$day}</a><br>";
+
+                        if(!empty($eventList[$date])){
+                            foreach($eventList[$date] as $event){
+                                $startTime = date("H:i", strtotime($event["event_start_time"]));
+                                echo "<p>
+                                      <span class='hasEvent'>{$event["event_name"]} {$startTime}</span>";
+
+                                if( $event["event_end_time"] !== "00:00:00" ){
+                                    $endTime = date("H:i", strtotime($event["event_end_time"]));
+                                    echo "<span class='hasEvent'> ~ {$endTime}</span>";
+                                }
+
+                                echo "</p>";
+                            }
+
+                        }
+
+                        echo "</td>";
 
                         if( ($day + $youbi) % 7 === 0 ){
                             echo "</tr><tr>";
@@ -109,8 +161,12 @@ if( file_exists( __DIR__."/data/events.json" ) ){
     <div>
         <h3>予定を追加: <?= $calDate.$d; ?>日</h3>
         <form action="addEvent.php" method="post">
-            <input type="hidden" name="date" value="<?= $ym."-".$d; ?>">
-            <input type="text" name="event" required>
+            <span><input type="hidden" name="date" value="<?= $ym."-".$d; ?>"></span><br>
+            <span>イベント名<input type="text" name="event" required></span><br>
+            <span>開始時間<input type="time" name="startTime" value="<?= $currentTime ?>" required></span><br>
+            <span>終了時間<input type="time" name="endTime"  value="<?= $initialEndTime ?>" ></span><br>
+            <span>タグ<input type="text" name="tags"></span><br>
+            <span><input type="hidden" name="userId" value="<?= $userId ?>"></span>
             <button type="submit">追加</button>
         </form>
     </div>
