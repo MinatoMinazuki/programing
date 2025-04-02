@@ -1,5 +1,6 @@
 <?php
-
+ini_set('display_errors', "On");
+error_reporting(E_ALL & ~ E_DEPRECATED & ~ E_USER_DEPRECATED & ~ E_NOTICE);
 date_default_timezone_set('Asia/Tokyo');
 
 require_once __DIR__."/class/DBC.php";
@@ -35,6 +36,7 @@ $currentTime = date("H:00");
 $initialEndTime = date("H:00", strtotime("+1 hour"));
 
 $eventList = [];
+
 
 $sql = sprintf("
         SELECT *

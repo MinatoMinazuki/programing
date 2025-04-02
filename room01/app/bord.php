@@ -246,7 +246,7 @@ EOF;
         </form>
     </section>
 </center>
-<div>
+<div style="text-align: right;">
     <a href="createCalendar.php">カレンダーに戻る</a>
 </div>
 </body>
