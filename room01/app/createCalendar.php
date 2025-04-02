@@ -34,11 +34,6 @@ $youbi = date("w", $timestamp);
 $currentTime = date("H:00");
 $initialEndTime = date("H:00", strtotime("+1 hour"));
 
-// $events = [];
-// if( file_exists( __DIR__."/data/events.json" ) ){
-//     $events = json_decode( file_get_contents("./data/events.json"), true );
-// }
-
 $eventList = [];
 
 $sql = sprintf("
@@ -114,44 +109,44 @@ if( !empty($res) ){
             <tbody class="table_calendar-body">
                 <tr>
                     <?php
-                    for($i=0; $i < $youbi; $i++) {
-                        echo "<td></td>";
-                    }
+                        for($i=0; $i < $youbi; $i++) {
+                            echo "<td></td>";
+                        }
 
-                    for($day=1; $day <= $dayCount; $day++){
-                        $date = $ym."-".$day;
-                        $todayClass = $date === $today ? "today" : "";
+                        for($day=1; $day <= $dayCount; $day++){
+                            $date = $ym."-".$day;
+                            $todayClass = $date === $today ? "today" : "";
 
-                        echo "<td class ='{$todayClass}'>
-                              <a href='?ym={$ym}&d={$day}'>{$day}</a><br>";
+                            echo "<td class ='{$todayClass}'>
+                                  <a href='?ym={$ym}&d={$day}'>{$day}</a><br>";
 
-                        if(!empty($eventList[$date])){
-                            foreach($eventList[$date] as $event){
-                                $startTime = date("H:i", strtotime($event["event_start_time"]));
-                                echo "<p>
-                                      <span class='hasEvent'>{$event["event_name"]} {$startTime}</span>";
+                            if(!empty($eventList[$date])){
+                                foreach($eventList[$date] as $event){
+                                    $startTime = date("H:i", strtotime($event["event_start_time"]));
+                                    echo "<p><a href='javascript:void(0);'>
+                                          <span class='hasEvent' data-event-id='{$event["id"]}'>{$event["event_name"]} {$startTime}</span>";
 
-                                if( $event["event_end_time"] !== "00:00:00" ){
-                                    $endTime = date("H:i", strtotime($event["event_end_time"]));
-                                    echo "<span class='hasEvent'> ~ {$endTime}</span>";
+                                    if( $event["event_end_time"] !== "00:00:00" ){
+                                        $endTime = date("H:i", strtotime($event["event_end_time"]));
+                                        echo "<span class='hasEvent'> ~ {$endTime}</span>";
+                                    }
+
+                                    echo "</a></p>";
                                 }
 
-                                echo "</p>";
                             }
 
+                            echo "</td>";
+
+                            if( ($day + $youbi) % 7 === 0 ){
+                                echo "</tr><tr>";
+                            }
                         }
 
-                        echo "</td>";
-
-                        if( ($day + $youbi) % 7 === 0 ){
-                            echo "</tr><tr>";
+                        while ( ($day + $youbi) % 7 !== 1 ) {
+                            echo "<td></td>";
+                            $day++;
                         }
-                    }
-
-                    while ( ($day + $youbi) % 7 !== 1 ) {
-                        echo "<td></td>";
-                        $day++;
-                    }
                     ?>
                 </tr>
             </tbody>
@@ -159,14 +154,24 @@ if( !empty($res) ){
     </div>
     <?php if( !empty($d) ): ?>
     <div>
-        <h3>予定を追加: <?= $calDate.$d; ?>日</h3>
+        <h3>予定を追加 : <?= $calDate.$d; ?>日</h3>
         <form action="addEvent.php" method="post">
             <span><input type="hidden" name="date" value="<?= $ym."-".$d; ?>"></span><br>
-            <span>イベント名<input type="text" name="event" required></span><br>
-            <span>開始時間<input type="time" name="startTime" value="<?= $currentTime ?>" required></span><br>
-            <span>終了時間<input type="time" name="endTime"  value="<?= $initialEndTime ?>" ></span><br>
-            <span>タグ<input type="text" name="tags"></span><br>
-            <span><input type="hidden" name="userId" value="<?= $userId ?>"></span>
+            <span>イベント名
+                <input type="text" name="event" required>
+            </span><br>
+            <span>開始時間
+                <input type="time" name="startTime" value="<?= $currentTime ?>" required>
+            </span><br>
+            <span>終了時間
+                <input type="time" name="endTime"  value="<?= $initialEndTime ?>" >
+            </span><br>
+            <span>タグ
+                <input type="text" name="tags">
+            </span><br>
+            <span>
+                <input type="hidden" name="userId" value="<?= $userId ?>">
+            </span>
             <button type="submit">追加</button>
         </form>
     </div>
