@@ -5,17 +5,38 @@ require_once __DIR__."/class/DBC.php";
 $dbc = new DBC;
 
 $errors = [];
-if($_POST){
+
+$eventId = $_GET['eventId'];
+
+$eventSql = sprintf("
+        SELECT
+        *
+        FROM
+        `schedule_master`
+        WHERE
+        `id` = '%s'
+    ", $eventId);
+
+$eventDatas = $dbc->Dsql($eventSql);
+
+if( empty($eventDatas) ){
+    $errors["eventData"] = "無効なイベントIDです";
+} else {
+    $eventData = $eventDatas[0];
+}
+
+
+if( !empty($_POST) ){
     $uid = 1;
     $name = $_POST["name"];
     $contents = $_POST["contents"];
 
     //名前・投稿内容の空欄確認
-    if(null == $name){
-        $errors['name'] .= "名前を入力してください";
+    if($name == null){
+        $errors['name'] = "名前を入力してください";
     }
-    if(null == $contents){
-        $errors['contents'] .= "投稿内容を入力してください";
+    if($contents == null){
+        $errors['contents'] = "投稿内容を入力してください";
     }
 
     if(!$errors){
@@ -25,17 +46,20 @@ if($_POST){
             (
                 `user_id`,
                 `name`,
-                `contents`
+                `contents`,
+                `event_id`
             )
             VALUES
             (
+                '%s',
                 '%s',
                 '%s',
                 '%s'
             )",
             $uid,
             $name,
-            $contents
+            $contents,
+            $eventId
             );
 
         $dbc->Dsql($sql);
@@ -51,7 +75,16 @@ if(isset($_GET['page']) && is_numeric($_GET['page'])){
 
 //SQLを実行
 $limit = ($page - 1)*5;
-$limitSql = sprintf("SELECT * FROM `schedule_bord_master` ORDER BY `created` DESC LIMIT %d, 5", $limit);
+$limitSql = sprintf("
+        SELECT
+        *
+        FROM `schedule_bord_master`
+        WHERE `event_id` = '%s'
+        ORDER BY `created` DESC
+        LIMIT %d, 5
+        ",
+        $eventId,
+        $limit);
 
 $regist = $dbc->Dsql($limitSql);
 
@@ -69,7 +102,7 @@ $maxPages = ceil($count[0]['cnt'] / 5);
 if($page > 1){
     $prev = $page - 1;
     $pagerHTML .= <<<EOF
-        <a href="/bord.php?page={$prev}" class="prevPage"><img src="../img/arrow_left.png" width="10" height="15"></span></a>
+        <a href="/bord.php?eventId={$eventId}&page={$prev}" class="prevPage"><img src="../img/arrow_left.png" width="10" height="15"></span></a>
 EOF;
 }
 
@@ -81,7 +114,7 @@ for($pageNum = 1; $pageNum <= $maxPages; $pageNum++){
 EOF;
     } else {
         $pagerHTML .= <<<EOF
-            <span><a href="./bord.php?page={$pageNum}">{$pageNum} </a></span>
+            <span><a href="./bord.php?eventId={$eventId}&page={$pageNum}">{$pageNum} </a></span>
 EOF;
     }
 }
@@ -90,9 +123,10 @@ EOF;
 if($page < $maxPages){
     $next = $page + 1;
     $pagerHTML .= <<<EOF
-        <a href="/bord.php?page={$next}" class="nextPage"><img src="../img/arrow_right.png" width="10" height="15"></span></a>
+        <a href="/bord.php?eventId={$eventId}&page={$next}" class="nextPage"><img src="../img/arrow_right.png" width="10" height="15"></span></a>
 EOF;
 }
+
 
 ?>
 
@@ -101,21 +135,88 @@ EOF;
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>掲示板</title>
-    <link rel="stylesheet" href="style.css">
+    <title><?= $eventData["event_name"] ?></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .thread {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            background: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .thread-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .post {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #ccc;
+        }
+
+        .post-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .post-content {
+            font-size: 16px;
+            color: #333;
+            text-align: left;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: #333;
+            text-align: right;
+        }
+
+        .reply {
+            margin-left: 20px;
+            padding: 8px;
+            background: #eef;
+            border-left: 3px solid #88f;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body style="margin: 0;">
 <center>
-    <h1>掲示板サンプル</h1>
-    <section class="posted">
-        <h2 class="post">投稿内容一覧</h2>
-        <div><?php echo $pagerHTML; ?></div>
+    <h1 class="postList">投稿内容一覧</h1>
+    <section class="container">
+        <h2 class="thread-title"><?= $eventData["event_name"] ?></h2>
+        <div class="pager"><?php echo $pagerHTML; ?></div>
             <?php foreach($regist as $loop):?>
-                <div class="container">
-                <div class="post num">No:<?php echo $loop['id'] ?></div>
-                <div class="post name">名前:<?php echo $loop['name'] ?></div>
-                <div class="post content">投稿内容:<?php echo $loop['contents'] ?></div>
-                <div class="post time">投稿時間:<?php echo $loop['created']?></div>
+                <div class="thread">
+                    <div class="post">
+                        <div class="post-meta">No:<?php echo $loop['id'] ?> 名前:<?php echo $loop['name'] ?></div>
+                        <div class="post-content">投稿内容:<?php echo $loop['contents'] ?></div>
+                        <div class="post-time">投稿時間:<?php echo $loop['created']?></div>
+                    </div>
                 </div>
             <?php endforeach; ?>
     </section>
@@ -128,7 +229,7 @@ EOF;
                 <?php {echo $error.'<br>';}?>
             </div>
         <?php endif; ?>
-        <form action="bord.php" method="post">
+        <form action="bord.php?eventId=<?= $eventId ?>" method="post">
             <div class="p-new p-name">名前 : <input type="text" name="name" value=""></div>
             <div class="p-new p-content">投稿内容: <textarea name="contents" id="" cols="" rows=""></textarea></div>
             <div><button type="submit">投稿</button></div>

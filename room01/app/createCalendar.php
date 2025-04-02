@@ -114,7 +114,7 @@ if( !empty($res) ){
                         }
 
                         for($day=1; $day <= $dayCount; $day++){
-                            $date = $ym."-".$day;
+                            $date = $ym."-".sprintf("%02d", $day);
                             $todayClass = $date === $today ? "today" : "";
 
                             echo "<td class ='{$todayClass}'>
@@ -123,7 +123,7 @@ if( !empty($res) ){
                             if(!empty($eventList[$date])){
                                 foreach($eventList[$date] as $event){
                                     $startTime = date("H:i", strtotime($event["event_start_time"]));
-                                    echo "<p><a href='javascript:void(0);'>
+                                    echo "<p><a href='bord.php?eventId={$event["id"]}'>
                                           <span class='hasEvent' data-event-id='{$event["id"]}'>{$event["event_name"]} {$startTime}</span>";
 
                                     if( $event["event_end_time"] !== "00:00:00" ){

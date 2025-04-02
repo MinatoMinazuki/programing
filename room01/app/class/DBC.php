@@ -34,6 +34,7 @@ class DBC
         $stmt->execute();
 
         $queryType = strtoupper(strtok(trim($sql), " ")); // 最初の単語を取得して判定
+        $queryType = trim($queryType);
 
         switch ($queryType) {
           case 'SELECT':
