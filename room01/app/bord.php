@@ -92,7 +92,13 @@ $regist = $dbc->Dsql($limitSql);
 
 $pagerHTML = "";
 
-$countSql = 'SELECT COUNT(*) as `cnt` FROM `schedule_bord_master`';
+$countSql = sprintf('
+        SELECT
+        COUNT(*) as `cnt`
+        FROM `schedule_bord_master`
+        WHERE `event_id` = "%s"
+    ',
+    $eventId);
 
 $count =  $dbc->Dsql($countSql);
 
@@ -210,6 +216,9 @@ EOF;
     <section class="container">
         <h2 class="thread-title"><?= $eventData["event_name"] ?></h2>
         <div class="pager"><?php echo $pagerHTML; ?></div>
+            <?php if( empty($regist) ): ?>
+                <p>投稿はまだありません</p>
+            <?php else: ?>
             <?php foreach($regist as $loop):?>
                 <div class="thread">
                     <div class="post">
@@ -219,6 +228,7 @@ EOF;
                     </div>
                 </div>
             <?php endforeach; ?>
+            <?php endif; ?>
     </section>
 
     <section class="new">
@@ -236,5 +246,8 @@ EOF;
         </form>
     </section>
 </center>
+<div>
+    <a href="createCalendar.php">カレンダーに戻る</a>
+</div>
 </body>
 </html>
