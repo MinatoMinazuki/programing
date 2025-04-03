@@ -77,6 +77,7 @@ if( !empty($res) ){
         th {
             height: 30px;
             text-align: center;
+            width: calc(100% / 7);
         }
         td {
             height: 100px;
@@ -97,6 +98,12 @@ if( !empty($res) ){
 </head>
 <body>
     <div class="container mt-5">
+        <div class="mb-5">
+            <ul>
+                <li>日付をクリックで予定を追加</li>
+                <li>追加した予定をクリックで、その予定について投稿ができます</li>
+            </ul>
+        </div>
         <table class="table table-bordered">
             <thead class="table_calendar-head">
                 <tr>
